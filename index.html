@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Peak Supplies — Cheaper Than Jumia, Jiji & Konga</title>
+<meta name="description" content="Peak Supplies sources products directly from Chinese manufacturers. Get phones, laptops, car parts and more cheaper than Jumia, Jiji and Konga — delivered across Nigeria."/>
+<meta property="og:title" content="Peak Supplies — Source Smart. Scale Fast. Sell Global."/>
+<meta property="og:description" content="Direct from Chinese manufacturers. Up to 50% cheaper than Jumia, Jiji and Konga. Electronics, car parts, fashion and more delivered across Nigeria."/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#C9A84C;--gold-l:#E8C97A;
+  --d0:#0A0A0A;--d1:#111;--d2:#181818;--d3:#222;
+  --text:#E8E4DC;--muted:#7A7672;
+  --border:rgba(201,168,76,0.18);
+  --green:#4caf81;--red:#e05555;--blue:#6495ed;
+}
+html{scroll-behavior:smooth}
+
+.foot-col-link, .nav-link-btn, .mobile-menu button {
+  cursor: pointer;
+}
+a, button { cursor: pointer; }
+.btn-g, .btn-ghost, .nav-btn, .sub-btn, .reset-btn, .save-btn, .add-item-btn,
+.charge-btn, .invoice-btn, .track-save-btn, .local-save-btn, .add-pay-btn,
+.approve-btn, .wf-mark-btn, .cat-tab, .admin-tab, .copy-btn, .sc-run-btn,
+.del-btn, .rm-btn { cursor: pointer; }
+
+body{background:var(--d0);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:18px 48px;background:rgba(10,10,10,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,0.08)}
+.logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold)}
+.logo span{color:var(--text);font-weight:400}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-btn{font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:10px 22px;background:transparent;border:1px solid var(--gold);color:var(--gold);cursor:pointer;transition:all .25s}
+.nav-btn:hover{background:var(--gold);color:var(--d0)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);transition:all .3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;inset:0;z-index:199;background:rgba(10,10,10,0.98);flex-direction:column;align-items:center;justify-content:center;gap:28px}
+.mobile-menu.open{display:flex}
+.mobile-menu a,.mobile-menu button{font-family:'Cormorant Garamond',serif;font-size:22px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;background:none;border:none;cursor:pointer}
+.mobile-menu a:hover,.mobile-menu button:hover{color:var(--gold)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:140px 48px 80px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 55% at 72% 38%,rgba(201,168,76,.065),transparent 65%),radial-gradient(ellipse 35% 35% at 15% 78%,rgba(201,168,76,.03),transparent 55%)}
+.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 85% 85% at 50% 50%,black,transparent);-webkit-mask-image:radial-gradient(ellipse 85% 85% at 50% 50%,black,transparent)}
+.hero-body{position:relative;z-index:2;max-width:700px}
+.badge{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--border);padding:5px 16px;margin-bottom:32px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+.badge::before{content:'';width:20px;height:1px;background:var(--gold)}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,7vw,88px);font-weight:300;line-height:1;letter-spacing:-1px;margin-bottom:24px}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:15px;color:var(--muted);line-height:1.9;max-width:460px;margin-bottom:40px;font-weight:300}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-g{background:var(--gold);color:var(--d0);padding:14px 30px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:all .25s}
+.btn-g:hover{background:var(--gold-l);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--text);padding:14px 30px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;border:1px solid rgba(255,255,255,.15);cursor:pointer;transition:all .25s}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.hero-stats{position:absolute;right:48px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:40px;z-index:2}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:600;color:var(--gold);line-height:1;text-align:right}
+.stat-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px;text-align:right}
+
+/* SECTIONS */
+section{padding:88px 48px}
+.sec-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.sec-label::before{content:'';width:26px;height:1px;background:var(--gold)}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4vw,52px);font-weight:400;line-height:1.1}
+.rule{height:1px;background:linear-gradient(to right,transparent,var(--border),transparent)}
+
+/* ABOUT */
+.about{background:var(--d1)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;margin-top:48px}
+.about-p{font-size:15px;color:var(--muted);line-height:1.9;margin-bottom:16px;font-weight:300}
+.about-p strong{color:var(--text);font-weight:500}
+.card{background:var(--d2);border:1px solid var(--border);padding:40px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.feat{display:flex;gap:16px;align-items:flex-start;margin-bottom:24px}
+.feat:last-child{margin-bottom:0}
+.feat-icon{width:36px;height:36px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.feat h4{font-size:13px;letter-spacing:1px;margin-bottom:4px;font-weight:500}
+.feat p{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* SERVICES */
+.services{background:var(--d0)}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:48px;background:var(--border)}
+.svc-card{background:var(--d0);padding:40px 28px;position:relative;overflow:hidden;transition:background .3s}
+.svc-card:hover{background:var(--d2)}
+.svc-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--gold);transition:width .4s}
+.svc-card:hover::after{width:100%}
+.svc-n{font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:300;color:rgba(201,168,76,.09);line-height:1;margin-bottom:20px}
+.svc-t{font-size:16px;font-weight:500;margin-bottom:10px}
+.svc-d{font-size:13px;color:var(--muted);line-height:1.8;font-weight:300}
+
+/* CATALOG */
+.catalog-section{background:var(--d1)}
+.cat-tabs{display:flex;gap:8px;margin:28px 0 24px;flex-wrap:wrap}
+.cat-tab{padding:7px 18px;border:1px solid var(--border);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .2s;background:transparent;font-family:'DM Sans',sans-serif}
+.cat-tab.active,.cat-tab:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.05)}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.cat-card{background:var(--d2);border:1px solid var(--border);padding:22px;transition:border-color .25s}
+.cat-card:hover{border-color:rgba(201,168,76,.3)}
+.cat-emoji{font-size:28px;margin-bottom:12px}
+.cat-name{font-size:14px;font-weight:500;margin-bottom:5px}
+.cat-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px}
+.cat-tag{display:inline-flex;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);border:1px solid var(--border);padding:2px 8px}
+
+/* NICHES */
+.niches{background:var(--d0)}
+.niches-wrap{display:flex;gap:10px;margin-top:44px;flex-wrap:wrap}
+.pill{padding:10px 22px;border:1px solid var(--border);font-size:12px;letter-spacing:1px;color:var(--muted);display:flex;align-items:center;gap:8px;transition:all .25s;cursor:default}
+.pill:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.04)}
+
+/* COMPARE */
+.compare-section{background:var(--d1)}
+.box{background:var(--d2);border:1px solid var(--border);padding:36px;position:relative;overflow:hidden}
+.box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.search-row{display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.inp{width:100%;background:var(--d0);border:1px solid rgba(255,255,255,.07);color:var(--text);padding:11px 13px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s;resize:none;-webkit-appearance:none;appearance:none}
+.inp:focus{border-color:var(--gold)}
+.inp::placeholder{color:#383838}
+.inp-hint{font-size:11px;color:var(--muted);margin-bottom:20px;line-height:1.7}
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:8px}
+.savings-header{text-align:center;padding:22px;margin-bottom:14px;border:1px solid var(--border);background:var(--d0)}
+.savings-item{font-family:'Cormorant Garamond',serif;font-size:24px;margin-bottom:4px}
+.savings-avg{font-size:13px;color:var(--muted);margin-top:6px}
+.savings-avg strong{color:var(--green);font-size:18px}
+.savings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.save-card{background:var(--d0);border:1px solid var(--border);padding:18px;position:relative;overflow:hidden}
+.save-card.good::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+.save-card.mid::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#f0a500}
+.save-platform{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.save-pct{font-family:'Cormorant Garamond',serif;font-size:40px;line-height:1;margin-bottom:3px}
+.save-pct.good{color:var(--green)}
+.save-pct.mid{color:#f0a500}
+.save-label{font-size:12px;color:var(--muted)}
+.save-label strong{color:var(--text)}
+.cta-box{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.2);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+
+/* TESTIMONIALS */
+.testimonials{background:var(--d0)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:44px}
+.testi-card{background:var(--d2);border:1px solid var(--border);padding:26px;position:relative;overflow:hidden}
+.testi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.testi-stars{color:var(--gold);font-size:12px;margin-bottom:10px;letter-spacing:2px}
+.testi-text{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:16px;font-style:italic}
+.testi-author{font-size:12px;font-weight:500;color:var(--text)}
+.testi-role{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* FAQ */
+.faq-section{background:var(--d1)}
+.faq-list{margin-top:44px;display:flex;flex-direction:column;gap:2px}
+.faq-item{background:var(--d0);border:1px solid var(--border);overflow:hidden}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;cursor:pointer;transition:background .2s;gap:14px}
+.faq-q:hover{background:var(--d2)}
+.faq-q-text{font-size:14px;font-weight:500;flex:1}
+.faq-icon{font-size:22px;color:var(--gold);flex-shrink:0;transition:transform .3s;line-height:1;user-select:none}
+.faq-icon.open{transform:rotate(45deg)}
+.faq-a{font-size:13px;color:var(--muted);line-height:1.85;padding:0 22px 18px;font-weight:300;display:none}
+.faq-a.open{display:block}
+
+/* WHY */
+.why{background:var(--d0)}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:48px;background:var(--border)}
+.why-card{background:var(--d0);padding:40px;transition:background .25s}
+.why-card:hover{background:var(--d2)}
+.why-n{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--gold);margin-bottom:16px;letter-spacing:2px}
+.why-t{font-size:18px;font-weight:500;margin-bottom:10px}
+.why-d{font-size:13px;color:var(--muted);line-height:1.85;font-weight:300}
+
+/* ORDER FORM */
+.order-section{background:var(--d1)}
+.order-wrap{margin-top:48px;display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+.order-info p{font-size:14px;color:var(--muted);line-height:1.9;font-weight:300;margin-bottom:24px}
+.order-steps{display:flex;flex-direction:column;gap:20px}
+.o-step{display:flex;gap:14px;align-items:flex-start}
+.o-num{width:30px;height:30px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold)}
+.o-step h5{font-size:13px;font-weight:500;margin-bottom:3px}
+.o-step p{font-size:12px;color:var(--muted);line-height:1.6}
+.fsec{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin:22px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.fsec:first-child{margin-top:0}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.items-list{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.item-row{display:grid;grid-template-columns:1fr 70px 32px;gap:7px;align-items:center}
+.rm-btn{width:32px;height:32px;background:transparent;border:1px solid rgba(220,80,80,.2);color:#cc5555;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;padding:0;line-height:1}
+.rm-btn:hover{background:rgba(220,80,80,.08);border-color:#cc5555}
+.add-item-btn{background:transparent;border:1px dashed rgba(201,168,76,.3);color:var(--gold);padding:8px;width:100%;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-bottom:4px}
+.add-item-btn:hover{border-color:var(--gold);background:rgba(201,168,76,.04)}
+.ship-opts{display:flex;flex-direction:column;gap:8px}
+.ship-opt{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid rgba(255,255,255,.07);cursor:pointer;transition:all .2s;position:relative}
+.ship-opt:hover{border-color:rgba(201,168,76,.3)}
+.ship-opt.sel{border-color:var(--gold);background:rgba(201,168,76,.05)}
+.ship-radio{width:15px;height:15px;border:1px solid var(--muted);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .2s}
+.ship-opt.sel .ship-radio{border-color:var(--gold)}
+.ship-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);display:none}
+.ship-opt.sel .ship-dot{display:block}
+.ship-label{font-size:13px;font-weight:500;flex:1}
+.ship-badge{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);border:1px solid var(--border);padding:2px 8px}
+.intl-box{background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.18);padding:14px 16px}
+.intl-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.intl-left{display:flex;align-items:center;gap:10px}
+.intl-title{font-size:13px;font-weight:500}
+.intl-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.toggle-check{width:20px;height:20px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gold);transition:all .2s;cursor:pointer}
+.toggle-check.on{background:rgba(201,168,76,.1);border-color:var(--gold)}
+.intl-body{margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.fee-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.fee-label{font-size:11px;color:var(--muted);flex:1}
+.fee-inp{width:120px;background:var(--d0);border:1px solid rgba(255,255,255,.07);color:var(--text);padding:7px 10px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;text-align:right;transition:border-color .2s}
+.fee-inp:focus{border-color:var(--gold)}
+.addr-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.addr-grid .field{margin-bottom:0}
+.addr-full{grid-column:1/-1}
+.notice-box{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.2);padding:12px 14px;margin-top:14px;font-size:12px;color:var(--muted);line-height:1.7}
+.notice-box strong{color:var(--gold)}
+.bulk-notice{background:rgba(76,175,129,.05);border:1px solid rgba(76,175,129,.2);padding:10px 14px;margin-top:8px;font-size:12px;color:var(--green)}
+.sub-btn{width:100%;background:var(--gold);color:var(--d0);padding:14px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:all .25s;margin-top:16px}
+.sub-btn:hover:not(:disabled){background:var(--gold-l);transform:translateY(-1px)}
+.sub-btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.f-err{font-size:12px;color:var(--red);margin-top:10px;text-align:center;padding:10px;background:rgba(224,85,85,.07);border:1px solid rgba(224,85,85,.2)}
+.success-box{background:var(--d2);border:1px solid var(--border);padding:48px 36px;text-align:center;position:relative;overflow:hidden}
+.success-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--green),transparent)}
+.s-icon{font-size:40px;margin-bottom:16px}
+.s-title{font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--green);margin-bottom:8px}
+.s-sub{font-size:13px;color:var(--muted);line-height:1.8;max-width:320px;margin:0 auto 18px}
+.s-ref{font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:20px}
+.s-items{text-align:left;border:1px solid var(--border);padding:16px 20px;margin-bottom:22px}
+.s-items h4{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.s-row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.s-row:last-child{border-bottom:none}
+.s-row span{color:var(--text)}
+.reset-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:9px 22px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.reset-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* DISPUTE */
+.dispute-section{background:var(--d1)}
+
+/* NEWSLETTER */
+.newsletter{background:var(--d2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:64px 48px}
+.newsletter-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.newsletter-form{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+
+/* QUOTE */
+.quote-sec{background:var(--d2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:72px 48px;text-align:center}
+.q-mark{font-family:'Cormorant Garamond',serif;font-size:100px;color:var(--gold);opacity:.18;line-height:.5;margin-bottom:14px}
+.q-text{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2.6vw,32px);font-weight:300;font-style:italic;max-width:720px;margin:0 auto 22px;line-height:1.55}
+.q-auth{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+
+/* CTA */
+.cta{background:var(--d1);padding:100px 48px;text-align:center;position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 55% at 50% 50%,rgba(201,168,76,.055),transparent 70%);pointer-events:none}
+.cta-inner{position:relative;z-index:2}
+.cta-t{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,5vw,66px);font-weight:300;margin-bottom:16px}
+.cta-t em{font-style:italic;color:var(--gold)}
+.cta-s{font-size:14px;color:var(--muted);margin-bottom:40px;font-weight:300}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* FOOTER */
+footer{background:var(--d0);padding:56px 48px 36px;border-top:1px solid var(--border)}
+.foot-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:44px;margin-bottom:44px}
+.foot-logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.foot-tagline{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:18px}
+.foot-socials{display:flex;gap:10px}
+.foot-social{width:34px;height:34px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;transition:all .2s;text-decoration:none;color:var(--muted)}
+.foot-social:hover{border-color:var(--gold);color:var(--gold)}
+.foot-col-title{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.foot-col-link{display:block;font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:9px;transition:color .2s;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:left;padding:0}
+.foot-col-link:hover{color:var(--gold)}
+.foot-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:24px;border-top:1px solid var(--border);flex-wrap:wrap;gap:12px}
+.foot-copy{font-size:11px;color:var(--muted);letter-spacing:1px}
+
+/* ADMIN */
+.page{display:none;min-height:100vh;background:var(--d0);padding:100px 48px 60px}
+.page.active{display:block}
+.admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+.admin-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:400;color:var(--gold)}
+.admin-sub{font-size:12px;color:var(--muted);margin-top:4px}
+.admin-tabs{display:flex;gap:2px;margin-bottom:24px;background:var(--border);padding:1px;flex-wrap:wrap}
+.admin-tab{flex:1;min-width:80px;padding:9px;text-align:center;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .2s;background:var(--d0);border:none;color:var(--muted)}
+.admin-tab.active{background:var(--gold);color:var(--d0);font-weight:600}
+.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.a-stat{background:var(--d2);border:1px solid var(--border);padding:20px;position:relative;overflow:hidden}
+.a-stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.a-stat-n{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);line-height:1;margin-bottom:5px}
+.a-stat-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.pl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.pl-card{background:var(--d0);border:1px solid var(--border);padding:16px}
+.pl-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.pl-val{font-family:'Cormorant Garamond',serif;font-size:24px;line-height:1}
+.pl-val.gold{color:var(--gold)}
+.pl-val.green{color:var(--green)}
+.pl-val.red{color:var(--red)}
+.pl-val.white{color:var(--text)}
+.contacts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.contact-item{background:var(--d2);border:1px solid var(--border);padding:14px 16px}
+.contact-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.contact-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:8px}
+.contact-detail{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;gap:6px}
+.contact-val{font-size:12px;color:var(--text);word-break:break-all;flex:1}
+.copy-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:3px 8px;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.copy-btn:hover{border-color:var(--gold);color:var(--gold)}
+.contact-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.c-act{padding:5px 10px;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:4px;border:none}
+.c-act-email{background:rgba(201,168,76,.08);color:var(--gold);border:1px solid rgba(201,168,76,.25)}
+.c-act-wa{background:rgba(76,175,129,.08);color:var(--green);border:1px solid rgba(76,175,129,.25)}
+.c-act-call{background:rgba(255,255,255,.04);color:var(--text);border:1px solid rgba(255,255,255,.1)}
+.ship-config{background:var(--d2);border:1px solid var(--border);padding:26px;margin-bottom:22px;position:relative;overflow:hidden}
+.ship-config::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.ship-config h3{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);margin-bottom:5px}
+.ship-config-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.ship-tier{background:var(--d0);border:1px solid var(--border);padding:16px}
+.ship-tier h4{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.tier-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.tier-label{font-size:11px;color:var(--muted)}
+.tier-inp{width:100px;background:var(--d1);border:1px solid rgba(255,255,255,.07);color:var(--text);padding:6px 8px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;text-align:right;transition:border-color .2s}
+.tier-inp:focus{border-color:var(--gold)}
+.save-btn{background:var(--gold);color:var(--d0);padding:9px 20px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:all .25s;margin-top:12px}
+.save-btn:hover{background:var(--gold-l)}
+.order-card{background:var(--d2);border:1px solid var(--border);margin-bottom:12px;overflow:hidden}
+.order-card.paid{border-left:3px solid var(--green)}
+.order-card.pending{border-left:3px solid #f0a500}
+.order-card-top{display:grid;grid-template-columns:1.2fr 1.5fr 1fr 1fr;gap:14px;padding:16px 20px;border-bottom:1px solid var(--border)}
+.order-ref{font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:3px}
+.order-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px}
+.order-contact{font-size:11px;color:var(--muted)}
+.order-fl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.order-fv{font-size:12px;color:var(--text)}
+.order-card-bottom{padding:12px 20px;background:rgba(0,0,0,.12)}
+.paid-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(76,175,129,.1);border:1px solid rgba(76,175,129,.3);color:var(--green);font-size:10px;letter-spacing:1.5px;text-transform:uppercase}
+.cost-wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cost-wrap label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.cost-inp{background:var(--d0);border:1px solid rgba(255,255,255,.08);color:var(--text);padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s;width:130px;text-align:right}
+.cost-inp:focus{border-color:var(--gold)}
+.charge-btn{background:var(--gold);color:var(--d0);padding:9px 18px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:all .25s;white-space:nowrap}
+.charge-btn:hover:not(:disabled){background:var(--gold-l)}
+.charge-btn:disabled{opacity:.4;cursor:not-allowed}
+.invoice-btn{background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--muted);padding:6px 12px;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.invoice-btn:hover{border-color:var(--gold);color:var(--gold)}
+.tracking-section{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);width:100%}
+.tracking-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tracking-inp{flex:1;min-width:130px;background:var(--d0);border:1px solid rgba(255,255,255,.07);color:var(--text);padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:border-color .2s}
+.tracking-inp:focus{border-color:var(--gold)}
+.tracking-inp::placeholder{color:#444}
+.tracking-sel{background:var(--d0);border:1px solid rgba(255,255,255,.07);color:var(--text);padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;flex:0 0 140px}
+.track-save-btn{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.track-save-btn:hover{background:var(--gold);color:var(--d0)}
+.local-box{margin-top:10px;padding:10px 12px;background:rgba(100,149,237,.04);border:1px solid rgba(100,149,237,.18)}
+.local-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.local-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.local-inp{flex:1;min-width:110px;background:var(--d0);border:1px solid rgba(255,255,255,.07);color:var(--text);padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:border-color .2s}
+.local-inp:focus{border-color:var(--blue)}
+.local-inp::placeholder{color:#444}
+.local-sel{background:var(--d0);border:1px solid rgba(255,255,255,.07);color:var(--text);padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;flex:0 0 130px}
+.local-save-btn{background:transparent;border:1px solid var(--blue);color:var(--blue);padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.local-save-btn:hover{background:var(--blue);color:#fff}
+.pay-tracker{background:var(--d2);border:1px solid var(--border);padding:24px;margin-bottom:22px;position:relative;overflow:hidden}
+.pay-tracker::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.pay-inp-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:8px;align-items:end;padding:12px 14px;background:rgba(201,168,76,.03);border:1px dashed rgba(201,168,76,.2);margin-bottom:12px}
+.pay-inp-field label{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.pay-inp{width:100%;background:var(--d0);border:1px solid rgba(255,255,255,.07);color:var(--text);padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:border-color .2s}
+.pay-inp:focus{border-color:var(--gold)}
+.pay-inp::placeholder{color:#444}
+.pay-sel{width:100%;background:var(--d0);border:1px solid rgba(255,255,255,.07);color:var(--text);padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none}
+.add-pay-btn{background:var(--gold);color:var(--d0);padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:all .25s;white-space:nowrap;align-self:flex-end}
+.add-pay-btn:hover{background:var(--gold-l)}
+.pay-log{display:flex;flex-direction:column;gap:6px}
+.pay-log-row{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;align-items:center;padding:10px 12px;background:var(--d0);border:1px solid var(--border)}
+.pay-log-val{font-size:12px;color:var(--text)}
+.pay-log-val.muted{color:var(--muted);font-size:11px}
+.pay-log-val.amt{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--gold)}
+.del-btn{background:transparent;border:1px solid rgba(220,80,80,.2);color:#cc5555;padding:4px 8px;font-size:15px;cursor:pointer;transition:all .2s;line-height:1;font-family:inherit}
+.del-btn:hover{background:rgba(220,80,80,.08);border-color:#cc5555}
+.pay-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.pay-sum-card{background:var(--d0);border:1px solid var(--border);padding:14px}
+.pay-sum-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.pay-sum-val{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);line-height:1}
+.pay-sum-val.green{color:var(--green)}
+.pay-sum-val.red{color:var(--red)}
+.est-box{background:var(--d2);border:1px solid rgba(100,149,237,.25);padding:28px;margin-bottom:22px;position:relative;overflow:hidden}
+.est-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--blue),transparent)}
+.est-market{background:var(--d0);border:1px solid var(--border);padding:16px 20px;margin-bottom:10px}
+.est-market-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.est-market-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.est-market-item{display:flex;flex-direction:column;gap:3px}
+.est-market-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.est-market-val{font-size:13px;color:var(--text);font-weight:500}
+.est-market-val.sup{color:var(--green)}
+.est-market-val.loc{color:var(--red)}
+.est-margins{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:10px}
+.est-margin-card{background:var(--d0);border:1px solid var(--border);padding:14px;cursor:pointer;transition:all .2s;position:relative}
+.est-margin-card:hover{border-color:var(--blue)}
+.est-margin-card.picked{border-color:var(--gold);background:rgba(201,168,76,.05)}
+.est-margin-pct{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.est-margin-price{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--text);line-height:1;margin-bottom:4px}
+.est-margin-detail{font-size:11px;color:var(--muted);line-height:1.6}
+.est-margin-saving{font-size:11px;margin-top:4px;font-weight:500}
+.est-margin-saving.ok{color:var(--green)}
+.est-margin-saving.bad{color:var(--red)}
+.sc-box{background:var(--d0);border:1px solid rgba(100,149,237,.2);margin-top:10px;overflow:hidden}
+.sc-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(100,149,237,.05);border-bottom:1px solid rgba(100,149,237,.15)}
+.sc-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue)}
+.sc-run-btn{background:transparent;border:1px solid var(--blue);color:var(--blue);padding:5px 12px;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.sc-run-btn:hover:not(:disabled){background:var(--blue);color:#fff}
+.sc-run-btn:disabled{opacity:.4;cursor:not-allowed}
+.sc-body{padding:12px 14px}
+.sc-step{display:grid;grid-template-columns:24px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);align-items:start}
+.sc-step:last-child{border-bottom:none}
+.sc-step-num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;margin-top:2px}
+.sc-step-num.done{background:rgba(76,175,129,.15);color:var(--green);border:1px solid rgba(76,175,129,.3)}
+.sc-step-num.active{background:rgba(201,168,76,.15);color:var(--gold);border:1px solid rgba(201,168,76,.3)}
+.sc-step-num.idle{background:var(--d2);color:var(--muted);border:1px solid var(--border)}
+.sc-step-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px}
+.sc-step-detail{font-size:11px;color:var(--muted);line-height:1.7}
+.sc-step-cost{font-size:11px;color:var(--gold);margin-top:2px}
+.sc-tot-row{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--muted)}
+.sc-tot-row span:last-child{color:var(--text)}
+.sc-tot-final{display:flex;justify-content:space-between;font-size:14px;font-weight:600;padding:8px 0 0;margin-top:5px;border-top:1px solid var(--border)}
+.sc-tot-final span:last-child{color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:17px}
+.sc-approve-btn{width:100%;background:var(--green);color:#000;padding:10px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:all .25s;margin-top:8px}
+.sc-approved-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;background:rgba(76,175,129,.1);border:1px solid rgba(76,175,129,.3);color:var(--green);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-top:8px}
+.wf-box{background:var(--d0);border:1px solid rgba(100,149,237,.2);margin-top:10px;overflow:hidden}
+.wf-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(100,149,237,.05);border-bottom:1px solid rgba(100,149,237,.15)}
+.wf-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue)}
+.approve-btn{width:100%;background:linear-gradient(135deg,var(--green),#3d9e6a);color:#000;padding:12px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;font-weight:700;border:none;cursor:pointer;transition:all .3s;margin-top:8px}
+.approve-btn:hover:not(:disabled){transform:translateY(-1px)}
+.wf-step{display:grid;grid-template-columns:24px 1fr auto;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);align-items:start}
+.wf-step:last-child{border-bottom:none}
+.wf-num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;margin-top:2px}
+.wf-num.done{background:rgba(76,175,129,.2);color:var(--green);border:1px solid rgba(76,175,129,.4)}
+.wf-num.active{background:rgba(201,168,76,.2);color:var(--gold);border:1px solid rgba(201,168,76,.4)}
+.wf-num.idle{background:var(--d2);color:var(--muted);border:1px solid var(--border)}
+.wf-step-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px}
+.wf-step-detail{font-size:11px;color:var(--muted);line-height:1.75}
+.wf-step-cost{font-size:11px;color:var(--gold);margin-top:2px}
+.wf-mark-btn{background:var(--green);color:#000;padding:6px 12px;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:all .2s;white-space:nowrap;align-self:center;flex-shrink:0}
+.wf-mark-btn:hover{background:#5dcc96}
+.wf-done-tag{font-size:10px;color:var(--green);letter-spacing:1.5px;text-transform:uppercase;border:1px solid rgba(76,175,129,.3);padding:4px 10px;white-space:nowrap;align-self:center;flex-shrink:0}
+.wf-open-btn{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#fff;background:var(--blue);padding:6px 12px;text-decoration:none;transition:opacity .2s;display:inline-block;margin-top:6px}
+.wf-open-btn:hover{opacity:.85}
+.wf-card{padding:12px 14px;background:var(--d2);border:1px solid var(--border);margin-bottom:12px}
+.wf-row{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);color:var(--muted)}
+.wf-row span:last-child{color:var(--text)}
+.wf-total-row{display:flex;justify-content:space-between;font-size:14px;font-weight:600;padding:10px 0 0;margin-top:5px;border-top:1px solid var(--border)}
+.wf-total-row span:last-child{color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:17px}
+.social-settings{background:var(--d2);border:1px solid var(--border);padding:24px;margin-bottom:22px;position:relative;overflow:hidden}
+.social-settings::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+
+/* TRACK PAGE */
+.track-status-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.track-status-row:last-child{border-bottom:none}
+.track-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.track-dot.done{background:var(--green)}
+.track-dot.active{background:var(--gold)}
+.track-dot.idle{background:var(--d3);border:1px solid var(--border)}
+
+/* WA FLOAT */
+.wa-float{position:fixed;bottom:28px;right:28px;z-index:999;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;box-shadow:0 4px 18px rgba(37,211,102,.4);transition:all .25s;text-decoration:none}
+.wa-float:hover{transform:scale(1.1)}
+
+/* ANIMATIONS */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:16px 20px}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .hero{padding:110px 20px 70px}
+  .hero-stats{display:none}
+  section{padding:60px 20px}
+  .about-grid,.order-wrap,.why-grid,.newsletter-wrap,.foot-top{grid-template-columns:1fr;gap:28px}
+  .svc-grid,.cat-grid,.testi-grid,.ship-config-grid{grid-template-columns:1fr}
+  .addr-grid,.two{grid-template-columns:1fr}.addr-full{grid-column:1}
+  .admin-stats,.pl-grid,.pay-summary{grid-template-columns:1fr 1fr}
+  .order-card-top{grid-template-columns:1fr 1fr}
+  .pay-inp-row{grid-template-columns:1fr 1fr}
+  .contacts-grid{grid-template-columns:1fr}
+  .est-market-grid{grid-template-columns:1fr 1fr}
+  .est-margins{grid-template-columns:1fr}
+  .cmp-savings-grid,.savings-grid{grid-template-columns:1fr}
+  .quote-sec,.cta{padding:56px 20px}
+  footer{padding:44px 20px 28px}
+  .page{padding:90px 20px 50px}
+  .cost-wrap{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="logo">Peak <span>Supplies</span></div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#catalog">Catalog</a>
+    <a href="#compare">Compare</a>
+    <a href="#order">Order</a>
+    <a href="#faq">FAQ</a>
+    <a href="#" onclick="showPage('track-page');return false">Track Order</a>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="nav-btn" onclick="goTo('order')">Place Order</button>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#catalog" onclick="closeMobileMenu()">Catalog</a>
+  <a href="#compare" onclick="closeMobileMenu()">Compare</a>
+  <a href="#order" onclick="closeMobileMenu()">Order</a>
+  <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+  <button onclick="showPage('track-page');closeMobileMenu()">Track Order</button>
+  <button onclick="showPage('admin-page');closeMobileMenu()">Admin Login</button>
+  <button class="nav-btn" style="margin-top:12px" onclick="scrollTo('order');closeMobileMenu()">Place Order</button>
+</div>
+
+<!-- MAIN SITE -->
+<div id="main-site">
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-body">
+    <div class="badge">Global Dropshipping Partner</div>
+    <h1>Source Smart.<br><em>Scale Fast.</em><br>Sell Global.</h1>
+    <p class="hero-sub">Peak Supplies connects businesses to premium Chinese manufacturers — handling sourcing, payment, international shipping, customs and last-mile delivery so you can grow without the overhead.</p>
+    <div class="hero-btns">
+      <button class="btn-g" onclick="goTo('order')">Place an Order</button>
+      <button class="btn-ghost" onclick="goTo('catalog')">View Catalog</button>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-n">500+</div><div class="stat-l">Products Sourced</div></div>
+    <div><div class="stat-n">98%</div><div class="stat-l">On-Time Rate</div></div>
+    <div><div class="stat-n">40+</div><div class="stat-l">Countries Shipped</div></div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ABOUT -->
+<section class="about fade-in" id="about">
+  <div class="sec-label">Who We Are</div>
+  <div class="sec-title">Built for <em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold)">modern</em> commerce.</div>
+  <div class="about-grid">
+    <div>
+      <p class="about-p">Peak Supplies is a <strong>full-service dropshipping and product sourcing agency</strong> built for entrepreneurs, e-commerce brands, and retail businesses that want to move fast without managing complex supply chains.</p>
+      <p class="about-p">We work directly with manufacturers in China to get you <strong>better prices, faster lead times, and consistent quality</strong> — handling everything from supplier payment to international shipping to your client's door.</p>
+      <p class="about-p">Whether you're launching your first Shopify store or scaling an existing operation, we have the infrastructure to support your growth.</p>
+      <p class="about-p"><strong>We supply to vendors, car dealers, electronic dealers and so much more.</strong></p>
+    </div>
+    <div>
+      <div class="card">
+        <div class="feat"><div class="feat-icon">🏭</div><div><h4>Direct Factory Access</h4><p>We source from verified manufacturers — no middlemen, no markups.</p></div></div>
+        <div class="feat"><div class="feat-icon">🔗</div><div><h4>Complete Supply Chain</h4><p>Payment, shipping, customs clearance, and last-mile delivery all handled.</p></div></div>
+        <div class="feat"><div class="feat-icon">🔒</div><div><h4>Quality Guaranteed</h4><p>Pre-shipment inspection before anything leaves the warehouse.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- SERVICES -->
+<section class="services fade-in" id="services">
+  <div class="sec-label">What We Do</div>
+  <div class="sec-title">Our Services</div>
+  <div class="svc-grid" id="svc-grid"></div>
+</section>
+
+<div class="rule"></div>
+
+<!-- CATALOG -->
+<section class="catalog-section fade-in" id="catalog">
+  <div class="sec-label">What We Source</div>
+  <div class="sec-title">Product Catalog</div>
+  <div class="cat-tabs" id="cat-tabs"></div>
+  <div class="cat-grid" id="cat-grid"></div>
+</section>
+
+<div class="rule"></div>
+
+<!-- NICHES -->
+<section class="niches fade-in">
+  <div class="sec-label">Categories</div>
+  <div class="sec-title">Niches We Cover</div>
+  <div class="niches-wrap" id="niches-wrap"></div>
+</section>
+
+<div class="rule"></div>
+
+<!-- COMPARE -->
+<section class="compare-section fade-in" id="compare">
+  <div class="sec-label">Why Peak Supplies</div>
+  <div class="sec-title">See How Much You Save</div>
+  <p style="font-size:14px;color:var(--muted);line-height:1.9;font-weight:300;margin-top:12px;margin-bottom:32px;max-width:520px">We source directly from manufacturers — cutting out the middlemen Jumia, Jiji and Konga rely on. Type any product to see exactly how much cheaper Peak Supplies is.</p>
+  <div class="box">
+    <div class="search-row">
+      <input class="inp" id="compare-inp" placeholder="e.g. iPhone 15, PS5, Car seat covers, Samsung TV…" style="flex:1"/>
+      <button class="btn-g" id="compare-btn" onclick="runCompare()" style="padding:11px 24px;font-size:11px">Compare →</button>
+    </div>
+    <div class="inp-hint">AI searches Superbuy, DHgate & AliExpress for your product, then compares vs Jumia, Jiji, Konga and Slot.</div>
+    <div id="compare-result"></div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials fade-in" id="testimonials">
+  <div class="sec-label">What Clients Say</div>
+  <div class="sec-title">Trusted by Vendors Across Nigeria</div>
+  <div class="testi-grid" id="testi-grid"></div>
+</section>
+
+<div class="rule"></div>
+
+<!-- WHY -->
+<section class="why fade-in" id="why">
+  <div class="sec-label">Our Edge</div>
+  <div class="sec-title">Why Peak Supplies?</div>
+  <div class="why-grid" id="why-grid"></div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ORDER FORM -->
+<section class="order-section fade-in" id="order">
+  <div class="sec-label">Get Started</div>
+  <div class="sec-title">Place an Order Request</div>
+  <div class="order-wrap">
+    <div>
+      <p>Tell us what you need and where to ship it. Our AI analyses pricing in real-time and manages the <strong style="color:var(--text)">complete supply chain</strong> — from payment to your door.</p>
+      <p>Bulk discounts apply automatically. No minimums on first inquiry.</p>
+      <div class="order-steps">
+        <div class="o-step"><div class="o-num">1</div><div><h5>Submit your order</h5><p>List items, pick shipping tier, fill delivery address.</p></div></div>
+        <div class="o-step"><div class="o-num">2</div><div><h5>AI analyses &amp; we quote</h5><p>We source from the right platform, calculate exact cost, send Paystack payment link.</p></div></div>
+        <div class="o-step"><div class="o-num">3</div><div><h5>We ship &amp; track</h5><p>Cheapest international shipping + last-mile delivery to your exact address.</p></div></div>
+        <div class="o-step"><div class="o-num">4</div><div><h5>Track every step</h5><p>From supplier to your door — full visibility with tracking numbers.</p></div></div>
+      </div>
+    </div>
+    <div id="order-form-wrap"></div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- FAQ -->
+<section class="faq-section fade-in" id="faq">
+  <div class="sec-label">Got Questions</div>
+  <div class="sec-title">Frequently Asked Questions</div>
+  <div class="faq-list" id="faq-list"></div>
+</section>
+
+<div class="rule"></div>
+
+<!-- DISPUTE -->
+<section class="dispute-section fade-in" id="dispute">
+  <div class="sec-label">Need Help</div>
+  <div class="sec-title">Raise a Dispute or Complaint</div>
+  <p style="font-size:14px;color:var(--muted);line-height:1.85;margin-top:12px;margin-bottom:32px;max-width:520px;font-weight:300">Issue with your order? Let us know and we'll resolve it within 48 hours.</p>
+  <div class="box" style="max-width:580px" id="dispute-form-wrap"></div>
+</section>
+
+<div class="rule"></div>
+
+<!-- NEWSLETTER -->
+<div class="newsletter fade-in">
+  <div class="newsletter-wrap">
+    <div>
+      <div class="sec-label">Stay in the Loop</div>
+      <div class="sec-title" style="font-size:clamp(24px,3vw,38px)">Get deals &amp; updates<br>before anyone else.</div>
+      <p style="font-size:13px;color:var(--muted);margin-top:12px;line-height:1.85;font-weight:300">New products, exclusive sourcing deals, and market insights — straight to your inbox.</p>
+    </div>
+    <div>
+      <div id="newsletter-wrap"></div>
+    </div>
+  </div>
+</div>
+
+<!-- QUOTE -->
+<div class="quote-sec fade-in">
+  <div class="q-mark">"</div>
+  <div class="q-text">The best supply chain is the one you never have to think about. We built Peak Supplies so you can focus on selling — and let us handle everything else.</div>
+  <div class="q-auth">— The Peak Supplies Team</div>
+</div>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-inner fade-in">
+    <div class="cta-t">Ready to <em>peak</em><br>your supply chain?</div>
+    <p class="cta-s">Submit your first order today — no commitment, no minimums.</p>
+    <div class="cta-btns">
+      <button class="btn-g" onclick="goTo('order')">Start Your Order</button>
+      <button class="btn-ghost" onclick="goTo('compare')">Compare Prices</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-top">
+    <div>
+      <div class="foot-logo">Peak Supplies</div>
+      <div class="foot-tagline">Your complete dropshipping and product sourcing partner — from Chinese manufacturers to your client's door.</div>
+      <div class="foot-socials" id="foot-socials"></div>
+    </div>
+    <div>
+      <div class="foot-col-title">Quick Links</div>
+      <a class="foot-col-link" href="#about">About Us</a>
+      <a class="foot-col-link" href="#catalog">Catalog</a>
+      <a class="foot-col-link" href="#services">Services</a>
+      <a class="foot-col-link" href="#compare">Price Compare</a>
+    </div>
+    <div>
+      <div class="foot-col-title">Order</div>
+      <a class="foot-col-link" href="#order">Place Order</a>
+      <button class="foot-col-link" onclick="showPage('track-page')">Track Order</button>
+      <a class="foot-col-link" href="#faq">FAQ</a>
+      <a class="foot-col-link" href="#dispute">Raise a Dispute</a>
+      <button class="foot-col-link" onclick="showPage('policy-page')">Return Policy</button>
+    </div>
+    <div>
+      <div class="foot-col-title">Contact</div>
+      <a class="foot-col-link" href="https://wa.me/2347048334055" target="_blank">WhatsApp Us</a>
+      <button class="foot-col-link" onclick="showPage('admin-page')">Admin Login</button>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <div class="foot-copy">© 2025 Peak Supplies. All rights reserved.</div>
+    <button class="foot-col-link" style="font-size:11px" onclick="showPage('policy-page')">Return Policy</button>
+  </div>
+</footer>
+
+</div><!-- end main-site -->
+
+<!-- TRACK PAGE -->
+<div id="track-page" class="page">
+  <div style="max-width:580px;margin:0 auto">
+    <div style="margin-bottom:8px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);cursor:pointer" onclick="showMainSite()">← Back to Site</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;margin-bottom:8px">Track Your Order</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:32px;line-height:1.8">Enter your order reference number to see your full shipment status.</p>
+    <div class="box">
+      <div style="display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap">
+        <input class="inp" id="track-inp" placeholder="e.g. PSO-XK29QA" style="flex:1"/>
+        <button class="btn-g" onclick="trackOrder()" style="padding:11px 22px;font-size:11px">Track →</button>
+      </div>
+      <div id="track-result"></div>
+    </div>
+  </div>
+</div>
+
+<!-- POLICY PAGE -->
+<div id="policy-page" class="page">
+  <div style="max-width:720px;margin:0 auto">
+    <div style="margin-bottom:8px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);cursor:pointer" onclick="showMainSite()">← Back to Site</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;margin-bottom:6px">Refund &amp; Return Policy</div>
+    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:44px">Effective: January 2025</div>
+    <div id="policy-content">
+  <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--gold);margin:28px 0 8px">1. Our Commitment</div>
+  <p style="font-size:14px;color:var(--muted);line-height:1.95;margin-bottom:12px;font-weight:300">Peak Supplies conducts <strong style="color:var(--text)">quality inspections</strong> before any item is shipped. We are committed to ensuring every client receives products that match their order description.</p>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--gold);margin:28px 0 8px">2. Eligibility for Returns</div>
+  <p style="font-size:14px;color:var(--muted);line-height:1.95;margin-bottom:12px;font-weight:300">You may request a return if: the item arrives <strong style="color:var(--text)">visibly damaged</strong>, is <strong style="color:var(--text)">significantly different</strong> from what was ordered, or is <strong style="color:var(--text)">non-functional</strong> on arrival. You must notify us within <strong style="color:var(--text)">48 hours of delivery</strong> with photos.</p>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--gold);margin:28px 0 8px">3. Non-Returnable Items</div>
+  <p style="font-size:14px;color:var(--muted);line-height:1.95;margin-bottom:12px;font-weight:300">Items are non-returnable if: you ordered the wrong item or size, the item has been used or altered, or the complaint was raised more than 48 hours after delivery.</p>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--gold);margin:28px 0 8px">4. Refund Process</div>
+  <p style="font-size:14px;color:var(--muted);line-height:1.95;margin-bottom:12px;font-weight:300">Approved refunds are processed within <strong style="color:var(--text)">5-7 business days</strong> back to your original payment method. Replacements are dispatched within 3-5 business days of approval.</p>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--gold);margin:28px 0 8px">5. Shipping Costs</div>
+  <p style="font-size:14px;color:var(--muted);line-height:1.95;margin-bottom:12px;font-weight:300">For items returned due to our error, <strong style="color:var(--text)">Peak Supplies covers return shipping costs</strong>. For other returns, the client covers return shipping.</p>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--gold);margin:28px 0 8px">6. Contact Us</div>
+  <p style="font-size:14px;color:var(--muted);line-height:1.95;font-weight:300">To initiate a return, WhatsApp us or use the dispute form on the website with your order reference number and photos. Our team will respond within 24 hours.</p>
+</div>
+  </div>
+</div>
+
+<!-- ADMIN PAGE -->
+<div id="admin-page" class="page">
+  <div id="admin-login-wrap"></div>
+  <div id="admin-dashboard" style="display:none"></div>
+</div>
+
+<!-- WA FLOAT -->
+<a class="wa-float" href="https://wa.me/2347048334055?text=Hi Peak Supplies, I'd like to place an order." target="_blank" title="Chat on WhatsApp">💬</a>
+
+<script>
+// ═══════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════
+const PAYSTACK_KEY   = "pk_test_a08f1a56f949acb7198ccd5cc40ac3247d55ae08";
+const BACKEND_URL    = "https://peak-backend-3cnc.onrender.com";
+const FORMSPREE      = "https://formspree.io/f/xreyjqyq";
+const WA_NUMBER      = "2347048334055";
+const SUPABASE_URL   = "https://lulfrntjblqiibksiwrd.supabase.co";
+const SUPABASE_ANON  = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1bGZybnRqYmxxaWlia3Npd3JkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5NjA0OTUsImV4cCI6MjA4OTUzNjQ5NX0.auVCvKzdbWXLBSs3F78hSpHl35-_ME2EZ2tUjPx-Z_s";
+const ADMIN_HASH     = "a5fde32dabed4a67fd0c9ae5708f657d23ed241addf93ae88f7da4a18faca49e";
+
+// Init Supabase
+let sb = null;
+try { sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON); } catch(e){}
+
+// ═══════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════
+const fmt       = n => "₦" + Number(n||0).toLocaleString("en-NG");
+const mkId      = () => "PSO-" + Math.random().toString(36).slice(2,8).toUpperCase();
+const getTiers  = () => JSON.parse(localStorage.getItem("ps_tiers")||"null") || {
+  standard: {label:"Standard Delivery", badge:"Economy", base:5000,  surcharge:0},
+  express:  {label:"Express Delivery",  badge:"Fast",    base:12000, surcharge:0},
+  exclusive:{label:"Exclusive Delivery",badge:"Premium", base:30000, surcharge:0}
+};
+const getOrders  = () => JSON.parse(localStorage.getItem("ps_orders")||"[]");
+const saveOrders = o => { localStorage.setItem("ps_orders",JSON.stringify(o)); syncToSupabase(o.slice(0,5)); };
+const getPays    = () => JSON.parse(localStorage.getItem("ps_payments")||"[]");
+const savePays   = p => localStorage.setItem("ps_payments",JSON.stringify(p));
+const getSubs    = () => JSON.parse(localStorage.getItem("ps_subs")||"[]");
+const savSubs    = s => localStorage.setItem("ps_subs",JSON.stringify(s));
+const getSocials = () => JSON.parse(localStorage.getItem("ps_socials")||"null") || {whatsapp:"https://wa.me/2347048334055",tiktok:"https://tiktok.com/@mrgoodluck",instagram:"",twitter:""};
+const savSocials = s => localStorage.setItem("ps_socials",JSON.stringify(s));
+
+async function hashPw(pw){
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(pw));
+  return [...new Uint8Array(buf)].map(x=>x.toString(16).padStart(2,"0")).join("");
+}
+
+async function syncToSupabase(orders){
+  if(!sb) return;
+  for(const o of orders){
+    try{
+      await sb.from("orders").upsert({
+        ref:o.ref,name:o.name,email:o.email,phone:o.phone,items:o.items,
+        shipping:o.shipping,ship_fee:o.shipFee,intl_fee:o.intlFee,
+        address:o.address,notes:o.notes,date:o.date,status:o.status,
+        item_cost:o.itemCost||0,total:o.total||0,
+        tracking_num:o.trackingNum||"",carrier:o.carrier||"",
+        local_carrier:o.localCarrier||"",local_track_num:o.localTrackNum||"",
+        updated_at:new Date().toISOString()
+      },{onConflict:"ref"});
+    }catch(e){}
+  }
+}
+
+function classifyProduct(name){
+  const n = (name||"").toLowerCase();
+  const isElecCar = /phone|iphone|android|samsung|laptop|macbook|tablet|ipad|smartwatch|earbuds|airpods|headphones|speaker|tv |monitor|camera|ps5|xbox|nintendo|console|gpu|cpu|ssd|ram|router|power bank|charger|drone|car|tyre|tire|rim|wheel|brake|dashcam|seat cover|car audio|headlight|car battery|gps|exhaust|suspension|oil filter|engine|auto/.test(n);
+  return isElecCar ? "DHgate" : "Superbuy";
+}
+
+async function callAI(prompt, maxTokens=1000){
+  if(BACKEND_URL){
+    const res = await fetch(BACKEND_URL+"/api/ai",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({prompt,maxTokens})
+    });
+    if(res.status===429){ const d=await res.json(); throw new Error("Too many requests. Wait "+d.retryAfter+" seconds."); }
+    if(!res.ok) throw new Error("AI service error");
+    const data = await res.json();
+    const tb = data.content?.find(b=>b.type==="text");
+    if(!tb) throw new Error("No AI response");
+    return JSON.parse(tb.text.replace(/```json|```/g,"").trim());
+  }
+  throw new Error("Backend not configured");
+}
+
+// ═══════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════
+function goTo(id){
+  showMainSite();
+  setTimeout(()=>{ const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); },150);
+}
+function showPage(id){
+  document.getElementById("main-site").style.display = "none";
+  document.getElementById("main-nav").style.display  = "none";
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  if(id==="admin-page") renderAdminPage();
+  if(id==="track-page") renderTrackPage();
+
+  window.scrollTo(0,0);
+}
+function showMainSite(){
+  document.getElementById("main-site").style.display = "";
+  document.getElementById("main-nav").style.display  = "";
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+}
+function toggleMobileMenu(){
+  const m=document.getElementById("mobile-menu");
+  const h=document.getElementById("hamburger");
+  m.classList.toggle("open");
+  h.classList.toggle("open");
+}
+function closeMobileMenu(){
+  document.getElementById("mobile-menu").classList.remove("open");
+  document.getElementById("hamburger").classList.remove("open");
+}
+
+// ═══════════════════════════════════════
+// STATIC DATA
+// ═══════════════════════════════════════
+const SERVICES=[
+  {n:"01",t:"Product Sourcing",d:"We identify and vet high-margin products from trusted Chinese suppliers on AliExpress, DHgate, and Superbuy."},
+  {n:"02",t:"Supplier Negotiation",d:"Direct negotiations for better pricing, MOQs, and quality agreements."},
+  {n:"03",t:"Order Fulfillment",d:"End-to-end fulfillment management — from purchase to delivery tracking."},
+  {n:"04",t:"Private Label Setup",d:"We help you brand products under your own label, building long-term value."},
+  {n:"05",t:"Market Research",d:"Data-driven niche analysis to pinpoint trending products with high sell-through rates."},
+  {n:"06",t:"Store Consulting",d:"Strategic advisory for Shopify or WooCommerce — from conversion optimization to ad creative."},
+];
+const CATALOG=[
+  {cat:"Electronics",emoji:"📱",name:"Smartphones & Accessories",desc:"iPhones, Android flagships, cases, chargers, power banks sourced directly from DHgate.",tag:"DHgate"},
+  {cat:"Electronics",emoji:"💻",name:"Laptops & Tablets",desc:"MacBooks, Windows laptops, iPads, Android tablets at competitive prices.",tag:"DHgate"},
+  {cat:"Electronics",emoji:"🎮",name:"Gaming Consoles & Gear",desc:"PS5, Xbox, Nintendo Switch, controllers, headsets sourced directly.",tag:"DHgate"},
+  {cat:"Car",emoji:"🔧",name:"Auto Parts & Accessories",desc:"Brake pads, seat covers, dashcams, car audio, headlights for all major car brands.",tag:"DHgate"},
+  {cat:"Car",emoji:"🚘",name:"Car Electronics",desc:"GPS trackers, dashcams, reverse cameras, HUD displays and interior upgrade kits.",tag:"DHgate"},
+  {cat:"Home",emoji:"🏠",name:"Home & Kitchen",desc:"Appliances, cookware, storage solutions, décor items from Superbuy and AliExpress.",tag:"Superbuy"},
+  {cat:"Fashion",emoji:"👜",name:"Fashion & Accessories",desc:"Bags, shoes, jewellery, watches — fashion items at wholesale prices.",tag:"Superbuy"},
+  {cat:"Health",emoji:"🏋️",name:"Fitness & Wellness",desc:"Gym equipment, yoga mats, protein shakers, massage guns and health monitors.",tag:"Superbuy"},
+];
+const NICHES=[{e:"🔧",l:"Home & Kitchen"},{e:"💡",l:"Smart Gadgets"},{e:"🏋️",l:"Fitness"},{e:"🐾",l:"Pet Accessories"},{e:"👜",l:"Fashion"},{e:"🧴",l:"Beauty & Skincare"},{e:"🖥️",l:"Tech Peripherals"},{e:"🌿",l:"Eco & Sustainable"}];
+const TESTIMONIALS=[
+  {stars:"★★★★★",text:"Peak Supplies got me car parts from China at almost half what Jiji was asking. Quality was exactly as described.",author:"Chukwuemeka O.",role:"Auto Parts Dealer, Lagos"},
+  {stars:"★★★★★",text:"I run an electronics shop in Abuja and Peak Supplies has become my go-to supplier. Their pricing beats Slot and Konga every time.",author:"Aisha M.",role:"Electronics Retailer, Abuja"},
+  {stars:"★★★★★",text:"Ordered 20 units of smartwatches. The price comparison showed me how much cheaper I was getting them — saved over ₦400,000 vs Jumia.",author:"Tunde A.",role:"Online Vendor, Port Harcourt"},
+  {stars:"★★★★★",text:"Smooth process from order to delivery. The tracking page kept me updated the whole time.",author:"Ngozi E.",role:"Fashion Vendor, Enugu"},
+  {stars:"★★★★★",text:"As a car dealer I was sceptical at first but my first order of dashcams arrived perfectly. My customers love the quality.",author:"Babatunde K.",role:"Car Dealer, Ibadan"},
+  {stars:"★★★★★",text:"The price estimator showed me I was paying 38% more on Jumia. Switched to Peak Supplies and haven't looked back.",author:"Chiamaka R.",role:"Merchandise Vendor, Lagos"},
+];
+const WHYS=[
+  {n:"— 01",t:"Supplier Network",d:"Years of relationships with vetted Chinese manufacturers means better prices and fewer headaches."},
+  {n:"— 02",t:"Zero-Overhead Model",d:"No warehouses, no upfront inventory. We help you build a lean, profitable operation from day one."},
+  {n:"— 03",t:"End-to-End Supply Chain",d:"From sourcing to payment to international shipping to last-mile delivery — we handle the complete chain."},
+  {n:"— 04",t:"Transparent Process",d:"Every supplier, cost, and timeline is shared openly. You always know what's happening with your order."},
+];
+const FAQS=[
+  {q:"How does Peak Supplies work?",a:"You submit your order with items, shipping preference, and delivery address. Our team sources the products directly from Chinese manufacturers, calculates the exact cost, and sends you a secure Paystack payment link. Once paid, we dispatch and track your shipment to your door."},
+  {q:"How long does delivery take?",a:"Delivery time depends on your selected shipping tier and destination. After payment, our team will confirm estimated delivery dates. We track every step — from supplier, through customs, to your local delivery carrier."},
+  {q:"How do I pay for my order?",a:"We use Paystack for secure online payments in Naira. You'll receive a payment link after we've calculated your order cost. We accept debit/credit cards and bank transfers."},
+  {q:"Can I order in bulk for my business?",a:"Absolutely. Bulk discounts are applied automatically — 5% for 5+ units, 10% for 10+ units, 15% for 20+ units."},
+  {q:"What if my item arrives damaged?",a:"We conduct quality inspections before shipment. If an item arrives damaged, contact us within 48 hours with photos and we'll arrange a replacement or refund."},
+  {q:"Do you source car parts and electronics?",a:"Yes. We use DHgate for electronics and car parts, Superbuy for fashion and general goods, AliExpress as fallback — always getting you the best price."},
+  {q:"How do I track my order?",a:"Click 'Track Order' in the navigation, enter your reference number (e.g. PSO-XK29QA), and you'll see a full live status from supplier to your door."},
+];
+const CARRIER_URLS={
+  "DHL":"https://www.dhl.com/en/express/tracking.html?AWB=",
+  "FedEx":"https://www.fedex.com/fedextrack/?trknbr=",
+  "UPS":"https://www.ups.com/track?tracknum=",
+  "AliExpress":"https://www.aliexpress.com/p/order/",
+  "DHgate":"https://www.dhgate.com/order/trackingInfo.do?orderId=",
+  "Topship":"https://app.topship.africa/track?trackingId=",
+  "EMS":"https://track.ems.com.cn/mailQuery?mailNo=",
+  "GIG Logistics":"https://giglogistics.com/tracking?waybill=",
+  "Sendbox":"https://sendbox.co/track?trackingId=",
+  "4PX":"https://www.4px.com/track/?",
+  "Kwik Delivery":"https://kwik.delivery/tracking?id=",
+  "Other":"https://www.google.com/search?q=track+"
+};
+
+// ═══════════════════════════════════════
+// RENDER STATIC SECTIONS
+// ═══════════════════════════════════════
+function renderStatic(){
+  // Services
+  document.getElementById("svc-grid").innerHTML = SERVICES.map(s=>`
+    <div class="svc-card">
+      <div class="svc-n">${s.n}</div>
+      <div class="svc-t">${s.t}</div>
+      <div class="svc-d">${s.d}</div>
+    </div>`).join("");
+
+  // Catalog tabs
+  const cats = ["All",...[...new Set(CATALOG.map(i=>i.cat))]];
+  document.getElementById("cat-tabs").innerHTML = cats.map(c=>`
+    <button class="cat-tab${c==="All"?" active":""}" onclick="filterCatalog('${c}',this)">${c}</button>`).join("");
+  filterCatalog("All");
+
+  // Niches
+  document.getElementById("niches-wrap").innerHTML = NICHES.map(n=>`
+    <div class="pill">${n.e} ${n.l}</div>`).join("");
+
+  // Testimonials
+  document.getElementById("testi-grid").innerHTML = TESTIMONIALS.map(t=>`
+    <div class="testi-card">
+      <div class="testi-stars">${t.stars}</div>
+      <div class="testi-text">"${t.text}"</div>
+      <div class="testi-author">${t.author}</div>
+      <div class="testi-role">${t.role}</div>
+    </div>`).join("");
+
+  // Why
+  document.getElementById("why-grid").innerHTML = WHYS.map(w=>`
+    <div class="why-card">
+      <div class="why-n">${w.n}</div>
+      <div class="why-t">${w.t}</div>
+      <div class="why-d">${w.d}</div>
+    </div>`).join("");
+
+  // FAQ
+  document.getElementById("faq-list").innerHTML = FAQS.map((f,i)=>`
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(${i})">
+        <span class="faq-q-text">${f.q}</span>
+        <span class="faq-icon" id="faq-icon-${i}">+</span>
+      </div>
+      <div class="faq-a" id="faq-a-${i}">${f.a}</div>
+    </div>`).join("");
+
+  // Footer socials
+  renderFooterSocials();
+
+  // Order form
+  renderOrderForm();
+
+  // Dispute form
+  renderDisputeForm();
+
+  // Newsletter
+  renderNewsletter();
+
+  // Policy is hardcoded in HTML — no render needed
+}
+
+function filterCatalog(cat, btn){
+  document.querySelectorAll(".cat-tab").forEach(t=>t.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+  const items = cat==="All" ? CATALOG : CATALOG.filter(i=>i.cat===cat);
+  document.getElementById("cat-grid").innerHTML = items.map(i=>`
+    <div class="cat-card">
+      <div class="cat-emoji">${i.emoji}</div>
+      <div class="cat-name">${i.name}</div>
+      <div class="cat-desc">${i.desc}</div>
+      <div class="cat-tag">${i.tag}</div>
+    </div>`).join("");
+}
+
+function toggleFaq(i){
+  const a = document.getElementById("faq-a-"+i);
+  const icon = document.getElementById("faq-icon-"+i);
+  const isOpen = a.classList.contains("open");
+  a.classList.toggle("open",!isOpen);
+  icon.classList.toggle("open",!isOpen);
+}
+
+function renderFooterSocials(){
+  const s = getSocials();
+  document.getElementById("foot-socials").innerHTML = [
+    s.whatsapp  ? `<a class="foot-social" href="${s.whatsapp}"  target="_blank">💬</a>` : "",
+    s.tiktok    ? `<a class="foot-social" href="${s.tiktok}"    target="_blank">🎵</a>` : "",
+    s.instagram ? `<a class="foot-social" href="${s.instagram}" target="_blank">📸</a>` : "",
+    s.twitter   ? `<a class="foot-social" href="${s.twitter}"   target="_blank">𝕏</a>`  : "",
+  ].join("");
+}
+
+// ═══════════════════════════════════════
+// ORDER FORM
+// ═══════════════════════════════════════
+let orderItems = [{id:1,name:"",qty:1}];
+let orderShipping = "standard";
+let orderIntlOn = false;
+let orderRef = mkId();
+
+function renderOrderForm(success=false, successData=null){
+  const tiers = getTiers();
+  const wrap = document.getElementById("order-form-wrap");
+  if(!wrap) return;
+  if(success && successData){
+    wrap.innerHTML = `
+      <div class="success-box">
+        <div class="s-icon">📦</div>
+        <div class="s-title">Order Received!</div>
+        <p class="s-sub">We've analysed your order and will contact you within 24 hours with pricing and payment details.</p>
+        <div class="s-ref">Reference: ${successData.ref}</div>
+        <div class="s-items">
+          <h4>Your Order</h4>
+          ${successData.items.map(i=>`<div class="s-row"><span>${i.name}</span><span>x${i.qty}</span></div>`).join("")}
+          <div class="s-row"><span style="color:var(--muted)">Shipping</span><span>${successData.shipping}</span></div>
+          ${successData.bulkDiscount>0?`<div class="s-row"><span style="color:var(--muted)">Bulk Discount</span><span style="color:var(--green)">${successData.bulkDiscount}% applied</span></div>`:""}
+          <div class="s-row"><span style="color:var(--muted)">Deliver to</span><span>${successData.city}</span></div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:18px">Track your order anytime using your reference number.</p>
+        <button class="reset-btn" onclick="resetOrderForm()">Place Another Order</button>
+      </div>`;
+    return;
+  }
+  const bulkCount = orderItems.reduce((s,i)=>s+(parseInt(i.qty)||1),0);
+  const bulkDiscount = bulkCount>=20?15:bulkCount>=10?10:bulkCount>=5?5:0;
+  const tier = tiers[orderShipping];
+  const shipFee = (tier.base||0)+(tier.surcharge||0);
+
+  wrap.innerHTML = `
+    <div class="box" id="order-box">
+      <div class="fsec">Contact Details</div>
+      <div class="field"><label>Full Name</label><input class="inp" id="o-name" placeholder="John Doe"/></div>
+      <div class="two">
+        <div class="field"><label>Email</label><input class="inp" id="o-email" type="email" placeholder="you@example.com"/></div>
+        <div class="field"><label>Phone</label><input class="inp" id="o-phone" placeholder="+234 800 000 0000"/></div>
+      </div>
+
+      <div class="fsec">Items to Order</div>
+      <div id="items-list" class="items-list">
+        ${orderItems.map((item,idx)=>`
+          <div class="item-row" id="item-row-${item.id}">
+            <input class="inp" placeholder="Item ${idx+1} — name or description" value="${item.name}" oninput="updateItem(${item.id},'name',this.value)"/>
+            <input class="inp" type="number" min="1" value="${item.qty}" style="text-align:center" oninput="updateItem(${item.id},'qty',this.value)"/>
+            <button class="rm-btn" onclick="removeItem(${item.id})" ${orderItems.length===1?"disabled":""}>×</button>
+          </div>`).join("")}
+      </div>
+      <button class="add-item-btn" onclick="addItem()">+ Add Another Item</button>
+      ${bulkDiscount>0?`<div class="bulk-notice">🎉 Bulk discount: <strong>${bulkDiscount}% off</strong> applied for ${bulkCount} units!</div>`:""}
+
+      <div class="fsec">Shipping Method</div>
+      <div class="ship-opts">
+        ${Object.entries(tiers).map(([id,t])=>`
+          <div class="ship-opt${orderShipping===id?" sel":""}" onclick="selectShipping('${id}')">
+            <div class="ship-radio"><div class="ship-dot"></div></div>
+            <div class="ship-label">${t.label}</div>
+            <div class="ship-badge">${t.badge}</div>
+          </div>`).join("")}
+      </div>
+
+      <div class="fsec">International Protocol Fee</div>
+      <div class="intl-box">
+        <div class="intl-toggle" onclick="toggleIntl()">
+          <div class="intl-left">
+            <span style="font-size:18px">🌍</span>
+            <div><div class="intl-title">Apply International Protocol Fee</div><div class="intl-sub">Customs clearance, import duties &amp; cross-border handling</div></div>
+          </div>
+          <div class="toggle-check${orderIntlOn?" on":""}" id="intl-check">${orderIntlOn?"✓":""}</div>
+        </div>
+        <div id="intl-body" style="display:${orderIntlOn?"block":"none"};margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+          <div class="fee-row">
+            <span class="fee-label">Fee Amount (₦)</span>
+            <input class="fee-inp" id="intl-fee" type="number" min="0" value="8500"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="fsec">Delivery Address</div>
+      <div class="addr-grid">
+        <div class="field addr-full"><label>Street Address</label><input class="inp" id="o-street" placeholder="123 Main Street, Apt 4B"/></div>
+        <div class="field"><label>City</label><input class="inp" id="o-city" placeholder="Lagos"/></div>
+        <div class="field"><label>State / Province</label><input class="inp" id="o-state" placeholder="Lagos State"/></div>
+        <div class="field"><label>ZIP / Postal Code</label><input class="inp" id="o-zip" placeholder="100001"/></div>
+        <div class="field"><label>Country</label><input class="inp" id="o-country" placeholder="Nigeria"/></div>
+        <div class="field addr-full"><label>Delivery Notes (optional)</label><textarea class="inp" id="o-notes" rows="2" placeholder="Fragile items, leave at gate, call on arrival…"></textarea></div>
+      </div>
+
+      <div class="notice-box"><strong>How payment works:</strong> Submit your order and our team will source your items, calculate the exact cost, and send you a secure Paystack payment link. You pay only after we confirm pricing.</div>
+      <div id="order-err"></div>
+      <button class="sub-btn" id="order-submit-btn" onclick="submitOrder()">Submit Order Request →</button>
+    </div>`;
+}
+
+function addItem(){
+  orderItems.push({id:Date.now(),name:"",qty:1});
+  renderOrderForm();
+}
+function removeItem(id){
+  if(orderItems.length===1) return;
+  orderItems = orderItems.filter(i=>i.id!==id);
+  renderOrderForm();
+}
+function updateItem(id,key,val){
+  orderItems = orderItems.map(i=>i.id===id?{...i,[key]:val}:i);
+  const bulkCount = orderItems.reduce((s,i)=>s+(parseInt(i.qty)||1),0);
+  const bulkDiscount = bulkCount>=20?15:bulkCount>=10?10:bulkCount>=5?5:0;
+  // update bulk notice without full re-render
+  const existing = document.querySelector(".bulk-notice");
+  if(bulkDiscount>0){
+    const msg = `🎉 Bulk discount: <strong>${bulkDiscount}% off</strong> applied for ${bulkCount} units!`;
+    if(existing) existing.innerHTML=msg;
+    else {
+      const btn = document.querySelector(".add-item-btn");
+      if(btn){ const d=document.createElement("div"); d.className="bulk-notice"; d.innerHTML=msg; btn.after(d); }
+    }
+  } else if(existing){ existing.remove(); }
+}
+function selectShipping(id){
+  orderShipping = id;
+  document.querySelectorAll(".ship-opt").forEach(o=>o.classList.remove("sel"));
+  document.querySelectorAll(".ship-opt").forEach(o=>{
+    if(o.textContent.includes(getTiers()[id].label)) o.classList.add("sel");
+  });
+}
+function toggleIntl(){
+  orderIntlOn = !orderIntlOn;
+  const check = document.getElementById("intl-check");
+  const body  = document.getElementById("intl-body");
+  if(check){ check.classList.toggle("on",orderIntlOn); check.textContent=orderIntlOn?"✓":""; }
+  if(body)  body.style.display = orderIntlOn?"block":"none";
+}
+function resetOrderForm(){
+  orderItems=[{id:1,name:"",qty:1}];
+  orderShipping="standard";
+  orderIntlOn=false;
+  orderRef=mkId();
+  renderOrderForm();
+}
+
+async function submitOrder(){
+  const name    = document.getElementById("o-name")?.value.trim();
+  const email   = document.getElementById("o-email")?.value.trim();
+  const phone   = document.getElementById("o-phone")?.value.trim();
+  const street  = document.getElementById("o-street")?.value.trim();
+  const city    = document.getElementById("o-city")?.value.trim();
+  const state   = document.getElementById("o-state")?.value.trim();
+  const zip     = document.getElementById("o-zip")?.value.trim();
+  const country = document.getElementById("o-country")?.value.trim();
+  const notes   = document.getElementById("o-notes")?.value.trim();
+  const intlFee = parseFloat(document.getElementById("intl-fee")?.value)||0;
+  const errEl   = document.getElementById("order-err");
+  const btn     = document.getElementById("order-submit-btn");
+
+  if(!name)   return errEl.innerHTML=`<div class="f-err">Please enter your full name.</div>`;
+  if(!email)  return errEl.innerHTML=`<div class="f-err">Please enter your email address.</div>`;
+  if(orderItems.every(i=>!i.name.trim())) return errEl.innerHTML=`<div class="f-err">Please add at least one item.</div>`;
+  if(!street||!city||!country) return errEl.innerHTML=`<div class="f-err">Please fill in street, city and country.</div>`;
+
+  errEl.innerHTML="";
+  btn.disabled=true;
+  btn.textContent="Analysing prices & submitting…";
+
+  const tiers = getTiers();
+  const tier  = tiers[orderShipping];
+  const shipFee = (tier.base||0)+(tier.surcharge||0);
+  const intlCost = orderIntlOn ? intlFee : 0;
+  const filled = orderItems.filter(i=>i.name.trim());
+  const itemList = filled.map(i=>`${i.name} (x${i.qty})`).join(", ");
+  const fullAddr = [street,city,state,zip,country].filter(Boolean).join(", ");
+  const bulkCount = filled.reduce((s,i)=>s+(parseInt(i.qty)||1),0);
+  const bulkDiscount = bulkCount>=20?15:bulkCount>=10?10:bulkCount>=5?5:0;
+
+  // Save order
+  const orders = getOrders();
+  orders.unshift({
+    ref:orderRef, name, email, phone:phone||"N/A",
+    items:itemList, shipping:tier.label, shipFee, intlFee:intlCost,
+    address:fullAddr, notes, date:new Date().toLocaleDateString("en-GB"),
+    status:"pending", itemCost:0, total:0, bulkDiscount
+  });
+  saveOrders(orders);
+
+  // AI analysis per item
+  let analysis = "AI PRICING ANALYSIS\n"+"=".repeat(40)+"\n\n";
+  let grandCost=0, grandRev=0;
+  for(const item of filled){
+    const supplier = classifyProduct(item.name);
+    const prompt = `You are the pricing engine for Peak Supplies Nigeria. Every number MUST be exact.
+PRODUCT: "${item.name}" × ${item.qty}
+SUPPLIER: ${supplier} then AliExpress fallback.
+STEP 1: Search ${supplier} for real price in USD. Convert: 1 USD=1620 NGN.
+STEP 2: Estimate shipping China→Nigeria per unit: tiny 2000-3000, small electronics/car 3500-5500, medium 6000-10000, large 12000-25000 NGN.
+STEP 3: totalCostPerUnit = supplierPriceNGN + shippingNGN. totalCostForQty = totalCostPerUnit × ${item.qty}.
+STEP 4: Search jumia.com.ng, jiji.ng, konga.com, slot.ng for REAL prices. lowestLocalPrice = min found.
+STEP 5: For M in [20,25,30,35]: pricePerUnit = totalCostPerUnit*(1+M/100) rounded 500. profit = pricePerUnit-totalCostPerUnit. competitive = pricePerUnit < lowestLocalPrice.
+STEP 6: recommendedMargin = highest M where competitive=true. recommendedPrice = totalCostPerUnit*(1+recommendedMargin/100) rounded 500. totalProfit = (recommendedPrice-totalCostPerUnit)*${item.qty}.
+RULES: recommendedPrice MUST be < lowestLocalPrice. profit MUST be positive.
+Return ONLY valid JSON: {"item":"","qty":${item.qty},"supplierSource":"","supplierPriceUSD":0,"supplierPriceNGN":0,"shippingPerUnit":0,"totalCostPerUnit":0,"totalCostForQty":0,"jumiaPrice":0,"jijiPrice":0,"lowestLocalPrice":0,"lowestLocalSource":"","margins":[{"pct":20,"pricePerUnit":0,"profit":0,"competitive":true,"savingVsLocal":0},{"pct":25,"pricePerUnit":0,"profit":0,"competitive":true,"savingVsLocal":0},{"pct":30,"pricePerUnit":0,"profit":0,"competitive":true,"savingVsLocal":0},{"pct":35,"pricePerUnit":0,"profit":0,"competitive":true,"savingVsLocal":0}],"recommendedMargin":0,"recommendedPrice":0,"totalProfit":0,"verdict":"competitive","notes":""}`;
+    try{
+      const ai = await callAI(prompt, 900);
+      // JS verification
+      if(ai.totalCostPerUnit && ai.lowestLocalPrice){
+        if(ai.recommendedPrice >= ai.lowestLocalPrice){
+          for(const m of [35,30,25,20,15,10,5]){
+            const p = Math.round((ai.totalCostPerUnit*(1+m/100))/500)*500;
+            if(p < ai.lowestLocalPrice){ ai.recommendedPrice=p; ai.recommendedMargin=m; break; }
+          }
+        }
+        if(ai.recommendedPrice <= ai.totalCostPerUnit) ai.recommendedPrice = Math.round(ai.totalCostPerUnit*1.05/500)*500;
+        ai.totalProfit = (ai.recommendedPrice - ai.totalCostPerUnit) * (ai.qty||1);
+        (ai.margins||[]).forEach(m=>{
+          m.pricePerUnit = Math.round((ai.totalCostPerUnit*(1+m.pct/100))/500)*500;
+          m.profit = m.pricePerUnit - ai.totalCostPerUnit;
+          m.competitive = m.pricePerUnit < ai.lowestLocalPrice;
+          m.savingVsLocal = ai.lowestLocalPrice - m.pricePerUnit;
+        });
+      }
+      grandCost += ai.totalCostForQty||0;
+      grandRev  += (ai.recommendedPrice||0)*(ai.qty||1);
+      analysis += `ITEM: ${ai.item} × ${ai.qty}\nSupplier: ${ai.supplierSource} — ${fmt(ai.supplierPriceNGN)} ($${ai.supplierPriceUSD})\nCost/unit: ${fmt(ai.totalCostPerUnit)} | Shipping: ${fmt(ai.shippingPerUnit)}\nCheapest local: ${fmt(ai.lowestLocalPrice)} (${ai.lowestLocalSource})\n★ Recommended: ${ai.recommendedMargin}% → ${fmt(ai.recommendedPrice)}/unit | Profit: ${fmt(ai.totalProfit)}\n\n`;
+      const upd = getOrders().map(o=>o.ref===orderRef?{...o,aiAnalysis:(o.aiAnalysis||"")+analysis}:o);
+      saveOrders(upd);
+    }catch(e){ analysis += `${item.name}: analysis unavailable\n\n`; }
+  }
+
+  analysis += `=\nTotal cost: ${fmt(grandCost)}\nRecommended revenue: ${fmt(grandRev)}\nProfit: ${fmt(grandRev-grandCost)}\nShipping fee: ${fmt(shipFee)}\nGRAND TOTAL TO CHARGE CLIENT: ${fmt(grandRev+shipFee+intlCost)}\n`;
+
+  // Email admin
+  try{
+    await fetch(FORMSPREE,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify({_subject:`🛒 New Order ${orderRef} — AI Ready`,reference:orderRef,customer_name:name,customer_email:email,customer_phone:phone||"N/A",items:itemList,shipping:tier.label,shipping_fee:fmt(shipFee),intl_fee:intlCost>0?fmt(intlCost):"N/A",address:fullAddr,notes:notes||"None",bulk_discount:bulkDiscount+"%",cost_to_source:fmt(grandCost),recommended_charge:fmt(grandRev+shipFee+intlCost),estimated_profit:fmt(grandRev-grandCost),ai_analysis:analysis})});
+  }catch(e){}
+
+  renderOrderForm(true,{ref:orderRef,items:filled,shipping:tier.label,bulkDiscount,city});
+}
+
+// ═══════════════════════════════════════
+// CLIENT PRICE COMPARE
+// ═══════════════════════════════════════
+async function runCompare(){
+  const query = document.getElementById("compare-inp").value.trim();
+  if(!query) return;
+  const btn = document.getElementById("compare-btn");
+  const result = document.getElementById("compare-result");
+  btn.disabled=true; btn.textContent="Checking…";
+  result.innerHTML=`<div style="display:flex;align-items:center;gap:10px;padding:16px 0;color:var(--muted);font-size:13px"><span class="spinner"></span>Checking prices on Jumia, Jiji, Konga and Slot…</div>`;
+  const supplier = classifyProduct(query);
+  const prompt = `You are a savings calculator for Peak Supplies Nigeria.
+PRODUCT: "${query}" — SUPPLIER: ${supplier} then AliExpress.
+STEP 1: Search ${supplier} for real price in USD. Convert: 1 USD=1620 NGN.
+STEP 2: Estimate shipping China→Nigeria.
+STEP 3: totalCostNGN = supplierPriceNGN + shippingNGN.
+STEP 4: peakPrice = totalCostNGN * 1.28 rounded to nearest 500 NGN.
+STEP 5: Search jumia.com.ng, jiji.ng, konga.com, slot.ng for REAL prices.
+STEP 6: For each platform where peakPrice < theirPrice: savingNGN = theirPrice-peakPrice. savingPct = round((savingNGN/theirPrice)*100,1).
+Only include platforms where savingNGN > 0.
+Return ONLY valid JSON: {"item":"","peakSuppliesPrice":0,"platforms":[{"name":"Jumia","theirPrice":0,"savingNGN":0,"savingPct":0,"label":"vs Jumia"}],"avgSavingPct":0}`;
+  try{
+    const j = await callAI(prompt, 600);
+    if(!j.platforms||j.platforms.length===0){
+      result.innerHTML=`<div style="padding:20px;text-align:center;font-size:13px;color:var(--muted)">We couldn't beat local market prices on this specific item right now.</div>`;
+    } else {
+      result.innerHTML=`
+        <div class="savings-header">
+          <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Price Comparison</div>
+          <div class="savings-item">${j.item}</div>
+          <div class="savings-avg">Peak Supplies is on average <strong>${j.avgSavingPct}%</strong> cheaper than Nigerian retail</div>
+        </div>
+        <div class="savings-grid">
+          ${j.platforms.map(p=>`
+            <div class="save-card ${p.savingPct>=20?"good":"mid"}">
+              <div class="save-platform">${p.label}</div>
+              <div class="save-pct ${p.savingPct>=20?"good":"mid"}">${p.savingPct}%</div>
+              <div class="save-label">cheaper than <strong>${p.name}</strong></div>
+            </div>`).join("")}
+        </div>
+        <div class="cta-box">
+          <div>
+            <div style="font-size:14px;font-weight:500">Ready to save on ${j.item}?</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:3px">Place your order and get it sourced directly — no retail markup.</div>
+          </div>
+          <button class="btn-g" onclick="goTo('order')" style="padding:12px 22px;font-size:11px">Order Now →</button>
+        </div>`;
+    }
+  }catch(e){
+    result.innerHTML=`<div class="f-err">Could not fetch prices. Please try again.</div>`;
+  }
+  btn.disabled=false; btn.textContent="Compare →";
+  document.getElementById("compare-inp").addEventListener("keydown",e=>{ if(e.key==="Enter") runCompare(); });
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  const inp = document.getElementById("compare-inp");
+  if(inp) inp.addEventListener("keydown",e=>{ if(e.key==="Enter") runCompare(); });
+});
+
+// ═══════════════════════════════════════
+// DISPUTE FORM
+// ═══════════════════════════════════════
+function renderDisputeForm(){
+  const wrap = document.getElementById("dispute-form-wrap");
+  if(!wrap) return;
+  const ISSUES=["Item not received","Wrong item delivered","Item arrived damaged","Payment charged but no confirmation","Delivery delay","Quality not as described","Other"];
+  wrap.innerHTML=`
+    <div id="dispute-inner">
+      <div class="two">
+        <div class="field"><label style="display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Order Reference</label><input class="inp" id="d-ref" placeholder="e.g. PSO-XK29QA"/></div>
+        <div class="field"><label style="display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Your Name</label><input class="inp" id="d-name" placeholder="John Doe"/></div>
+      </div>
+      <div class="field" style="margin-bottom:12px"><label style="display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Email</label><input class="inp" id="d-email" type="email" placeholder="you@example.com"/></div>
+      <div class="field" style="margin-bottom:12px">
+        <label style="display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Issue Type</label>
+        <select class="inp" id="d-issue" style="appearance:auto;-webkit-appearance:auto">
+          <option value="">Select issue type…</option>
+          ${ISSUES.map(i=>`<option value="${i}">${i}</option>`).join("")}
+        </select>
+      </div>
+      <div class="field" style="margin-bottom:12px"><label style="display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Describe the Issue</label><textarea class="inp" id="d-desc" rows="4" placeholder="What happened in detail?"></textarea></div>
+      <div id="d-err"></div>
+      <button class="sub-btn" style="margin-top:8px;background:var(--red)" onclick="submitDispute()">Submit Complaint →</button>
+    </div>`;
+}
+
+async function submitDispute(){
+  const ref   = document.getElementById("d-ref")?.value.trim();
+  const name  = document.getElementById("d-name")?.value.trim();
+  const email = document.getElementById("d-email")?.value.trim();
+  const issue = document.getElementById("d-issue")?.value;
+  const desc  = document.getElementById("d-desc")?.value.trim();
+  const errEl = document.getElementById("d-err");
+  if(!ref)   return errEl.innerHTML=`<div class="f-err">Please enter your order reference.</div>`;
+  if(!email) return errEl.innerHTML=`<div class="f-err">Please enter your email address.</div>`;
+  if(!issue) return errEl.innerHTML=`<div class="f-err">Please select an issue type.</div>`;
+  if(!desc)  return errEl.innerHTML=`<div class="f-err">Please describe the issue.</div>`;
+  errEl.innerHTML="";
+  try{
+    await fetch(FORMSPREE,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify({_subject:`🚨 Dispute — Order ${ref} — ${issue}`,reference:ref,customer_name:name,customer_email:email,issue_type:issue,description:desc,type:"dispute"})});
+    document.getElementById("dispute-form-wrap").innerHTML=`
+      <div style="text-align:center;padding:32px 0">
+        <div style="font-size:40px;margin-bottom:14px">✅</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--green);margin-bottom:8px">Complaint Received</div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.8">We'll respond to <strong style="color:var(--text)">${email}</strong> within 48 hours.</p>
+        <button class="reset-btn" style="margin-top:16px" onclick="renderDisputeForm()">Submit Another</button>
+      </div>`;
+  }catch(e){ errEl.innerHTML=`<div class="f-err">Could not submit. Please try again.</div>`; }
+}
+
+// ═══════════════════════════════════════
+// NEWSLETTER
+// ═══════════════════════════════════════
+function renderNewsletter(){
+  const wrap = document.getElementById("newsletter-wrap");
+  if(!wrap) return;
+  wrap.innerHTML=`
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <input class="inp" id="nl-email" placeholder="Your email address…" style="flex:1;min-width:200px"/>
+      <button class="btn-g" onclick="subscribeNewsletter()" style="padding:12px 22px;font-size:11px;white-space:nowrap">Subscribe →</button>
+    </div>
+    <div id="nl-msg"></div>`;
+}
+async function subscribeNewsletter(){
+  const email = document.getElementById("nl-email")?.value.trim();
+  const msg = document.getElementById("nl-msg");
+  if(!email||!email.includes("@")) return;
+  const subs=getSubs(); subs.push({email,date:new Date().toLocaleDateString("en-GB")}); savSubs(subs);
+  try{ await fetch(FORMSPREE,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({_subject:"New Newsletter Subscriber",email,type:"newsletter"})}); }catch(e){}
+  document.getElementById("newsletter-wrap").innerHTML=`<div style="padding:14px 18px;background:rgba(76,175,129,.08);border:1px solid rgba(76,175,129,.3);color:var(--green);font-size:13px">✓ You're subscribed!</div>`;
+}
+
+// ═══════════════════════════════════════
+// TRACK ORDER
+// ═══════════════════════════════════════
+function renderTrackPage(){} // page already has its HTML
+function trackOrder(){
+  const ref = document.getElementById("track-inp")?.value.trim().toUpperCase();
+  const result = document.getElementById("track-result");
+  if(!ref) return;
+  const orders = getOrders();
+  const order = orders.find(o=>o.ref===ref);
+  if(!order){ result.innerHTML=`<div class="f-err">Order not found. Please check your reference number.</div>`; return; }
+  const statuses=[
+    {label:"Order Received",sub:"Your order has been submitted",done:true},
+    {label:"Payment Confirmed",sub:"Payment received and verified",done:order.status==="paid"},
+    {label:"Item Sourced",sub:"Your item is being sourced from supplier",done:!!order.trackingNum},
+    {label:"Shipped (International)",sub:order.trackingNum?`${order.carrier}: ${order.trackingNum}`:"Awaiting international shipment",done:!!order.trackingNum,active:!!order.trackingNum&&!order.localTrackNum},
+    {label:"Cleared Customs",sub:"Passed Nigerian customs clearance",done:!!order.localTrackNum},
+    {label:"Out for Local Delivery",sub:order.localCarrier?`${order.localCarrier}${order.localTrackNum?" — "+order.localTrackNum:""}${order.localEstDate?" | Est: "+order.localEstDate:""}`:"Awaiting local dispatch",done:false,active:!!order.localTrackNum},
+  ];
+  const trackUrl = order.carrier&&CARRIER_URLS[order.carrier]?(CARRIER_URLS[order.carrier]+order.trackingNum):"";
+  result.innerHTML=`
+    <div style="margin-top:24px">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)">${order.ref} · ${order.name} · ${order.shipping}</div>
+      ${statuses.map(s=>`
+        <div class="track-status-row">
+          <div class="track-dot ${s.done?"done":s.active?"active":"idle"}"></div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:500;color:${s.done||s.active?"var(--text)":"var(--muted)"}">${s.label}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">${s.sub}</div>
+          </div>
+          ${s.done?'<span style="font-size:10px;color:var(--green);letter-spacing:1px">✓</span>':""}
+          ${s.active&&!s.done?'<span style="font-size:10px;color:var(--gold);letter-spacing:1px">●</span>':""}
+        </div>`).join("")}
+      ${trackUrl?`<div style="margin-top:14px;padding:10px 14px;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px"><div style="font-size:12px;color:var(--text)">${order.carrier} — ${order.trackingNum}</div><a href="${trackUrl}" target="_blank" style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:5px 12px;text-decoration:none">Track on ${order.carrier} →</a></div>`:""}
+    </div>`;
+}
+
+// ═══════════════════════════════════════
+// RETURN POLICY — content hardcoded in HTML
+// ═══════════════════════════════════════
+
+function chargeClient(ref){
+  const itemCost = parseFloat(document.getElementById("cost-"+ref)?.value)||0;
+  if(!itemCost) return alert("Enter item cost first.");
+  const orders = getOrders();
+  const order  = orders.find(o=>o.ref===ref);
+  if(!order) return;
+  const total = itemCost + (order.shipFee||0) + (order.intlFee||0);
+  const handler = PaystackPop.setup({
+    key:PAYSTACK_KEY, email:order.email, amount:Math.round(total*100), currency:"NGN", ref:"CHG-"+ref,
+    metadata:{custom_fields:[{display_name:"Order",variable_name:"order",value:ref},{display_name:"Items",variable_name:"items",value:order.items}]},
+    callback:()=>{
+      const upd = getOrders().map(o=>o.ref===ref?{...o,status:"paid",itemCost,total}:o);
+      saveOrders(upd);
+      renderAdminDashboard();
+    },
+    onClose:()=>{}
+  });
+  handler.openIframe();
+}
+
+function saveTracking(ref){
+  const carrier = document.getElementById("carr-"+ref)?.value;
+  const num     = document.getElementById("tnum-"+ref)?.value.trim();
+  if(!carrier||!num) return;
+  const upd = getOrders().map(o=>o.ref===ref?{...o,trackingNum:num,carrier}:o);
+  saveOrders(upd);
+  alert("Tracking saved!");
+}
+
+function saveLocalDelivery(ref){
+  const carrier = document.getElementById("lcarr-"+ref)?.value;
+  const num     = document.getElementById("lnum-"+ref)?.value.trim();
+  const date    = document.getElementById("ldate-"+ref)?.value;
+  const upd = getOrders().map(o=>o.ref===ref?{...o,localCarrier:carrier,localTrackNum:num,localEstDate:date}:o);
+  saveOrders(upd);
+  alert("Local delivery info saved!");
+}
+
+function generateInvoice(ref){
+  const orders = getOrders();
+  const order  = orders.find(o=>o.ref===ref);
+  if(!order) return;
+  const itemCost = parseFloat(document.getElementById("cost-"+ref)?.value)||order.itemCost||0;
+  const total = itemCost+(order.shipFee||0)+(order.intlFee||0);
+  const w = window.open("","_blank");
+  w.document.write(`<!DOCTYPE html><html><head><title>Invoice ${order.ref}</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;padding:48px;color:#111;max-width:680px;margin:0 auto}.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:44px}.logo{font-size:26px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#C9A84C}.sec{margin-bottom:26px}.sec-title{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #eee}.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f5f5f5;font-size:13px}.tot{display:flex;justify-content:space-between;padding:12px 0;font-size:16px;font-weight:700;border-top:2px solid #C9A84C;margin-top:6px}.footer{margin-top:44px;font-size:11px;color:#888;text-align:center;border-top:1px solid #eee;padding-top:18px}</style></head><body><div class="header"><div><div class="logo">Peak Supplies</div><div style="font-size:12px;color:#888;margin-top:5px">Global Dropshipping Partner</div></div><div style="text-align:right"><div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888">Invoice</div><div style="font-size:22px;font-weight:600">${order.ref}</div><div style="font-size:12px;color:#888;margin-top:3px">${order.date}</div></div></div><div class="sec"><div class="sec-title">Bill To</div><div style="font-size:14px;font-weight:600">${order.name}</div><div style="font-size:12px;color:#666;margin-top:3px">${order.email}</div>${order.phone&&order.phone!=="N/A"?`<div style="font-size:12px;color:#666">${order.phone}</div>`:""}<div style="font-size:12px;color:#666;margin-top:3px">${order.address}</div></div><div class="sec"><div class="sec-title">Order Details</div><div class="row"><span>${order.items}</span><span>₦${(itemCost).toLocaleString()}</span></div><div class="row"><span>Shipping (${order.shipping})</span><span>₦${(order.shipFee||0).toLocaleString()}</span></div>${order.intlFee>0?`<div class="row"><span>International Protocol Fee</span><span>₦${order.intlFee.toLocaleString()}</span></div>`:""}<div class="tot"><span>Total</span><span style="color:#C9A84C">₦${total.toLocaleString()}</span></div></div><div class=\"footer\">Thank you for choosing Peak Supplies.</div></body></html>`);
+  w.document.close();
+  setTimeout(()=>w.print(), 600);
+}
+
+function renderContactsTab(el){
+  const orders = getOrders();
+  el.innerHTML=`
+    <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);margin-bottom:14px">Clients (${orders.length})</div>
+    ${orders.length===0?'<div style="padding:40px;text-align:center;color:var(--muted);background:var(--d2);border:1px solid var(--border)">No clients yet.</div>':`
+    <div class="contacts-grid">
+      ${orders.map(o=>`
+        <div class="contact-item">
+          <div class="contact-label">${o.date} · ${o.status==="paid"?"✓ Paid":"⏳ Pending"}</div>
+          <div class="contact-name">${o.name}</div>
+          <div class="contact-detail"><span class="contact-val">✉ ${o.email}</span><button class="copy-btn" onclick="navigator.clipboard.writeText('${o.email}');this.textContent='✓'">Copy</button></div>
+          ${o.phone&&o.phone!=="N/A"?`<div class="contact-detail"><span class="contact-val">📞 ${o.phone}</span><button class="copy-btn" onclick="navigator.clipboard.writeText('${o.phone}');this.textContent='✓'">Copy</button></div>`:""}
+          <div class="contact-actions">
+            <a class="c-act c-act-email" href="mailto:${o.email}?subject=Your Order ${o.ref}">✉ Email</a>
+            ${o.phone&&o.phone!=="N/A"?`<a class="c-act c-act-wa" href="https://wa.me/${o.phone.replace(/[^0-9]/g,"")}?text=Hi ${encodeURIComponent(o.name)}, Peak Supplies here — order ${o.ref}." target="_blank">💬 WhatsApp</a><a class="c-act c-act-call" href="tel:${o.phone}">📞 Call</a>`:""}
+          </div>
+        </div>`).join("")}
+    </div>`}`;
+}
+
+// AI ESTIMATOR (admin)
+let estPicked = null;
+function renderEstimatorTab(el){
+  el.innerHTML=`
+    <div class="est-box">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--blue);margin-bottom:5px">AI Price Estimator</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.7">DHgate for electronics &amp; car parts, Superbuy for everything else. Compares vs Jumia, Jiji, Konga &amp; Slot.</div>
+      <div style="display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap">
+        <input class="inp" id="est-inp" placeholder="e.g. iPhone 15 Pro, PS5, Toyota brake pads…" style="flex:1" onkeydown="if(event.key==='Enter')runEstimator()"/>
+        <button class="btn-g" id="est-btn" onclick="runEstimator()" style="padding:11px 20px;font-size:11px;background:var(--blue)">Get Prices →</button>
+      </div>
+      <div id="est-result"></div>
+    </div>`;
+}
+
+async function runEstimator(){
+  const query = document.getElementById("est-inp")?.value.trim();
+  if(!query) return;
+  const btn = document.getElementById("est-btn");
+  const result = document.getElementById("est-result");
+  btn.disabled=true; btn.textContent="Searching…";
+  result.innerHTML=`<div style="display:flex;align-items:center;gap:10px;padding:14px 0;color:var(--muted);font-size:12px"><span class="spinner" style="border-top-color:var(--blue)"></span>Detecting product type and searching supplier + Nigerian market…</div>`;
+  estPicked=null;
+  const supplier = classifyProduct(query);
+  const prompt = `You are the pricing engine for Peak Supplies Nigeria. Every number MUST be exact.
+PRODUCT: "${query}" — SUPPLIER: ${supplier} then AliExpress.
+STEP 1: Search ${supplier} for real price. Convert: 1 USD=1620 NGN, 1 CNY=223 NGN.
+STEP 2: Estimate shipping China→Nigeria: tiny 2000-3000, small electronics/car 3500-5500, medium 6000-10000, large 12000-25000 NGN.
+STEP 3: totalCostNGN = supplierPriceNGN + shippingNGN.
+STEP 4: Search jumia.com.ng, jiji.ng, konga.com, slot.ng for REAL prices. lowestLocalPrice = min.
+STEP 5: For M in [20,25,30,35]: yourPrice = totalCostNGN*(1+M/100) rounded 500. profit = yourPrice-totalCostNGN. competitive = yourPrice<lowestLocalPrice. savingVsLocal = lowestLocalPrice-yourPrice.
+STEP 6: recommendedMargin = highest M where competitive=true. maxPossibleMarginPct = ((lowestLocalPrice-500)/totalCostNGN-1)*100.
+RULES: recommendedPrice MUST be < lowestLocalPrice. profit MUST be positive.
+Return ONLY valid JSON: {"item":"","supplierPriceUSD":0,"supplierPriceNGN":0,"supplierSource":"","shippingNGN":0,"totalCostNGN":0,"jumiaPrice":0,"jijiPrice":0,"kongaPrice":0,"slotPrice":0,"lowestLocalPrice":0,"lowestLocalSource":"","margins":[{"pct":20,"yourPrice":0,"profit":0,"competitive":true,"savingVsLocal":0},{"pct":25,"yourPrice":0,"profit":0,"competitive":true,"savingVsLocal":0},{"pct":30,"yourPrice":0,"profit":0,"competitive":true,"savingVsLocal":0},{"pct":35,"yourPrice":0,"profit":0,"competitive":true,"savingVsLocal":0}],"recommendedMargin":0,"recommendedPrice":0,"maxPossibleMarginPct":0,"verdict":"competitive","notes":""}`;
+  try{
+    const j = await callAI(prompt,1000);
+    const verdictColor = j.verdict==="competitive"?"var(--green)":j.verdict==="partially_competitive"?"#f0a500":"var(--red)";
+    const verdictMsg = j.verdict==="competitive"?"✓ COMPETITIVE — All margins beat local market.":j.verdict==="partially_competitive"?"⚡ PARTIALLY COMPETITIVE — Some margins are cheaper.":"⚠ NOT COMPETITIVE — Cannot beat local pricing at any profit.";
+    result.innerHTML=`
+      <div style="padding:10px 12px;margin-bottom:10px;font-size:12px;font-weight:500;background:${j.verdict==="competitive"?"rgba(76,175,129,.08)":j.verdict==="partially_competitive"?"rgba(240,165,0,.08)":"rgba(224,85,85,.08)"};border:1px solid ${verdictColor.replace("var(--green)","rgba(76,175,129,.3)").replace("#f0a500","rgba(240,165,0,.3)").replace("var(--red)","rgba(224,85,85,.3)")};color:${verdictColor}">${verdictMsg}</div>
+      <div class="est-market">
+        <div class="est-market-title">Price Intelligence — ${j.item} (${j.supplierSource})</div>
+        <div class="est-market-grid">
+          <div class="est-market-item"><span class="est-market-label">Supplier Price</span><span class="est-market-val sup">${fmt(j.supplierPriceNGN)} ($${j.supplierPriceUSD})</span></div>
+          <div class="est-market-item"><span class="est-market-label">Shipping</span><span class="est-market-val sup">${fmt(j.shippingNGN)}</span></div>
+          <div class="est-market-item"><span class="est-market-label">Your Total Cost</span><span class="est-market-val sup">${fmt(j.totalCostNGN)}</span></div>
+          <div class="est-market-item"><span class="est-market-label">Jumia</span><span class="est-market-val loc">${fmt(j.jumiaPrice)}</span></div>
+          <div class="est-market-item"><span class="est-market-label">Jiji</span><span class="est-market-val loc">${fmt(j.jijiPrice)}</span></div>
+          <div class="est-market-item"><span class="est-market-label">Cheapest (${j.lowestLocalSource})</span><span class="est-market-val loc">${fmt(j.lowestLocalPrice)}</span></div>
+        </div>
+        <div style="margin-top:10px;padding:8px 12px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+          <span style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase">★ AI Recommended — ${j.recommendedMargin}% Margin</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold)">${fmt(j.recommendedPrice)}</span>
+        </div>
+        ${j.notes?`<div style="margin-top:8px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:8px">${j.notes}</div>`:""}
+      </div>
+      <div class="est-margins">
+        ${(j.margins||[]).map(m=>`
+          <div class="est-margin-card${estPicked===m.pct?" picked":""}${j.recommendedMargin===m.pct?" rec":""}" onclick="pickMargin(${m.pct},'${JSON.stringify(j).replace(/'/g,"\\'")}')">
+            ${j.recommendedMargin===m.pct?`<div style="font-size:9px;letter-spacing:2px;color:var(--gold);margin-bottom:4px;text-transform:uppercase">★ Best Pick</div>`:""}
+            <div class="est-margin-pct">${m.pct}% Margin</div>
+            <div class="est-margin-price">${fmt(m.yourPrice)}</div>
+            <div class="est-margin-detail">Profit: ${fmt(m.profit)}</div>
+            <div class="est-margin-saving ${m.competitive?"ok":"bad"}">${m.competitive?`✓ ${fmt(Math.abs(m.savingVsLocal))} cheaper than ${j.lowestLocalSource}`:"✗ Above local market"}</div>
+          </div>`).join("")}
+      </div>
+      <div id="est-picked-msg"></div>`;
+  }catch(e){
+    result.innerHTML=`<div class="f-err">Could not fetch pricing. Check product name and try again.</div>`;
+  }
+  btn.disabled=false; btn.textContent="Get Prices →";
+}
+
+function pickMargin(pct, jStr){
+  estPicked = pct;
+  try{
+    const j = JSON.parse(jStr);
+    const m = j.margins?.find(x=>x.pct===pct);
+    document.querySelectorAll(".est-margin-card").forEach(c=>c.classList.remove("picked"));
+    event.currentTarget.classList.add("picked");
+    const msg = document.getElementById("est-picked-msg");
+    if(msg&&m) msg.innerHTML=`<div style="padding:10px 12px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);font-size:13px;color:var(--gold);margin-top:8px">✓ ${pct}% margin → Sell at <strong>${fmt(m.yourPrice)}</strong> | Profit per unit: <strong>${fmt(m.profit)}</strong></div>`;
+  }catch(e){}
+}
+
+function renderShippingTab(el){
+  const tiers = getTiers();
+  el.innerHTML=`
+    <div class="ship-config">
+      <h3>Shipping Fee Configuration</h3>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:18px">Set base fees and surcharges per tier.</div>
+      <div class="ship-config-grid">
+        ${Object.entries(tiers).map(([id,t])=>`
+          <div class="ship-tier">
+            <h4>${t.label}</h4>
+            <div class="tier-row"><span class="tier-label">Base Fee (₦)</span><input class="tier-inp" id="sf-base-${id}" type="number" min="0" value="${t.base}"/></div>
+            <div class="tier-row"><span class="tier-label">Surcharge (₦)</span><input class="tier-inp" id="sf-sur-${id}" type="number" min="0" value="${t.surcharge}"/></div>
+            <div style="font-size:11px;color:var(--muted);margin-top:6px">Total: <strong style="color:var(--gold)">${fmt((t.base||0)+(t.surcharge||0))}</strong></div>
+          </div>`).join("")}
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="save-btn" onclick="saveShippingConfig()">Save Shipping Fees</button>
+        <span id="ship-save-msg" style="font-size:11px;color:var(--green);letter-spacing:1px"></span>
+      </div>
+    </div>`;
+}
+
+function saveShippingConfig(){
+  const tiers = getTiers();
+  Object.keys(tiers).forEach(id=>{
+    tiers[id].base      = parseFloat(document.getElementById("sf-base-"+id)?.value)||0;
+    tiers[id].surcharge = parseFloat(document.getElementById("sf-sur-"+id)?.value)||0;
+  });
+  localStorage.setItem("ps_tiers",JSON.stringify(tiers));
+  const msg = document.getElementById("ship-save-msg");
+  if(msg){ msg.textContent="✓ Saved"; setTimeout(()=>msg.textContent="",2500); }
+}
+
+function renderPaymentsTab(el){
+  const pays = getPays();
+  const total = pays.reduce((s,p)=>s+(p.amountNGN||0),0);
+  const totalUSD = pays.reduce((s,p)=>s+(p.amountUSD||0),0);
+  const revenue = getOrders().filter(o=>o.status==="paid").reduce((s,o)=>s+(o.total||0),0);
+  const METHODS=["Grey Finance","Paystack Dollar Card","USDT/Crypto","CSSBuy Agent","Pandabuy Agent","Cash","Other"];
+  el.innerHTML=`
+    <div class="pay-tracker">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);margin-bottom:5px">Supplier Payment Tracker</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:18px">Log every payment to suppliers via Grey Finance, Paystack dollar card, USDT, or buying agents.</div>
+      <div class="pay-inp-row">
+        <div class="pay-inp-field"><label>Item / Order</label><input class="pay-inp" id="pay-item" placeholder="e.g. iPhone 15 Pro x2 — PSO-XK29"/></div>
+        <div class="pay-inp-field"><label>Amount (₦)</label><input class="pay-inp" id="pay-ngn" type="number" min="0" placeholder="285000"/></div>
+        <div class="pay-inp-field"><label>Amount (USD)</label><input class="pay-inp" id="pay-usd" type="number" min="0" step="0.01" placeholder="175.93"/></div>
+        <div class="pay-inp-field"><label>Method</label><select class="pay-sel" id="pay-method">${METHODS.map(m=>`<option value="${m}">${m}</option>`).join("")}</select></div>
+        <button class="add-pay-btn" onclick="addPayment()">+ Log</button>
+      </div>
+      <div class="pay-log">
+        ${pays.map(p=>`
+          <div class="pay-log-row">
+            <div><div class="pay-log-val">${p.item}</div><div class="pay-log-val muted">${p.date}</div></div>
+            <div class="pay-log-val amt">${fmt(p.amountNGN)}${p.amountUSD>0?` <span style="font-size:11px;color:var(--muted)">($${p.amountUSD})</span>`:""}</div>
+            <span style="font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border:1px solid var(--border);color:var(--muted)">${p.method}</span>
+            <button class="del-btn" onclick="deletePayment(${p.id})">×</button>
+          </div>`).join("")}
+      </div>
+      <div class="pay-summary">
+        <div class="pay-sum-card"><div class="pay-sum-label">Total Spent (₦)</div><div class="pay-sum-val">${fmt(total)}</div></div>
+        <div class="pay-sum-card"><div class="pay-sum-label">Total Spent (USD)</div><div class="pay-sum-val" style="font-size:16px">$${totalUSD.toLocaleString("en-US",{minimumFractionDigits:2})}</div></div>
+        <div class="pay-sum-card"><div class="pay-sum-label">Total Revenue</div><div class="pay-sum-val green">${fmt(revenue)}</div></div>
+        <div class="pay-sum-card"><div class="pay-sum-label">Net Profit</div><div class="pay-sum-val ${revenue-total>=0?"green":"red"}">${fmt(revenue-total)}</div></div>
+      </div>
+    </div>`;
+}
+
+function addPayment(){
+  const item = document.getElementById("pay-item")?.value.trim();
+  const ngn  = parseFloat(document.getElementById("pay-ngn")?.value)||0;
+  const usd  = parseFloat(document.getElementById("pay-usd")?.value)||0;
+  const method = document.getElementById("pay-method")?.value;
+  if(!item||!ngn) return alert("Enter item description and amount.");
+  const pays = getPays();
+  pays.unshift({id:Date.now(),date:new Date().toLocaleDateString("en-GB"),item,amountNGN:ngn,amountUSD:usd,method});
+  savePays(pays);
+  renderPaymentsTab(document.getElementById("admin-tab-content"));
+}
+
+function deletePayment(id){
+  savePays(getPays().filter(p=>p.id!==id));
+  renderPaymentsTab(document.getElementById("admin-tab-content"));
+}
+
+function renderSettingsTab(el){
+  const s = getSocials();
+  el.innerHTML=`
+    <div class="social-settings">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);margin-bottom:5px">Social Media Links</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:18px">Add or update your social handles. Leave blank to hide that icon.</div>
+      ${[
+        {key:"whatsapp",label:"WhatsApp URL",placeholder:"https://wa.me/2347048334055"},
+        {key:"tiktok",label:"TikTok URL",placeholder:"https://tiktok.com/@mrgoodluck"},
+        {key:"instagram",label:"Instagram URL",placeholder:"https://instagram.com/yourhandle"},
+        {key:"twitter",label:"X / Twitter URL",placeholder:"https://twitter.com/yourhandle"},
+      ].map(f=>`
+        <div class="field" style="margin-bottom:10px">
+          <label style="display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">${f.label}</label>
+          <input class="inp" id="soc-${f.key}" value="${s[f.key]||""}" placeholder="${f.placeholder}"/>
+        </div>`).join("")}
+      <div style="display:flex;align-items:center;gap:10px;margin-top:8px">
+        <button class="save-btn" onclick="saveSocialLinks()">Save Social Links</button>
+        <span id="soc-msg" style="font-size:11px;color:var(--green);letter-spacing:1px"></span>
+      </div>
+    </div>`;
+}
+
+function saveSocialLinks(){
+  const s = {
+    whatsapp:  document.getElementById("soc-whatsapp")?.value.trim(),
+    tiktok:    document.getElementById("soc-tiktok")?.value.trim(),
+    instagram: document.getElementById("soc-instagram")?.value.trim(),
+    twitter:   document.getElementById("soc-twitter")?.value.trim(),
+  };
+  savSocials(s);
+  renderFooterSocials();
+  const msg = document.getElementById("soc-msg");
+  if(msg){ msg.textContent="✓ Saved — links updated"; setTimeout(()=>msg.textContent="",2500); }
+}
+
+// ═══════════════════════════════════════
+// SCROLL REVEAL
+// ═══════════════════════════════════════
+function initScrollReveal(){
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("visible"); });
+  },{threshold:0.1});
+  document.querySelectorAll(".fade-in").forEach(el=>io.observe(el));
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+document.addEventListener("DOMContentLoaded",()=>{
+  renderStatic();
+  initScrollReveal();
+});
+</script>
+</body>
+</html>
